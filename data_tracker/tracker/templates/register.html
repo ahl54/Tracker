@@ -1,0 +1,18 @@
+{% extends base %}
+
+{% block content %}
+
+{% if registered %}
+  <center><strong>Thank you for registering!</strong></center>
+  <a href="/tracker/tracker">Return to the homepage.</a><br />
+{% else %}
+  <div class="form-style-5">
+    <fieldset>  <h2>Register</h2> </fieldset>
+    <form method="POST" class="post-form">{% csrf_token %}
+    	<fieldset> {{ form.as_p }} </fieldset>
+      <fieldset> <input type="submit" value="Register" /> </fieldset>
+    </form>
+  </div>
+{% endif %}
+
+{% endblock %}

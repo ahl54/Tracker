@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% block extrahead %}
+    <!-- Load in jQuery and HighCharts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+{% endblock %}
+
+	<center>
+		<p> Total studies: {{ total }} </p>
+		<p> Number of datasets available in cBioPortal: {{ available }} </p>
+		<p> Number of data requests in progress: {{ enroute }}</p>
+		<p> Number of datasets with associated ciations: {{ citations }}</p>
+		
+		{% for chart_name in chart_names %}
+			<div id={{ chart_name }} style="height:500px; width:35%"></div>
+		{% endfor %}
+
+	</center>
+
+{% block overwrite %}
+<!-- Overwrite the base.html jQuery load and put in head for Highcharts to work -->
+{% endblock %}
+
+
+{% block extrajs %}
+<!-- Maps the Python template context variables from views.py to the Highchart js variables -->
+<script>
+{% for chart_name in chart_names %}
+	{% for tag in tags %}
+			var {{ tag }} = {{ tag }}
+	{% endfor %}
+{% endfor %}
+</script>
+
+<!-- Highchart js. Variable map shown above -->
+<script>
+
+$(document).ready(function() {
+$(tissue).highcharts({
+        chart: {{ tissuechart|safe }},
+        title: {{ tissuetitle|safe }},
+        xAxis: {{ tissuexAxis|safe }},
+        yAxis: {{ tissueyAxis|safe }},
+		credits: false,
+        plotOptions: {{ tissueplotOptions|safe }},
+        series: {{ tissueseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(details).highcharts({
+        chart: {{ detailschart|safe }},
+        title: {{ detailstitle|safe }},
+        xAxis: {{ detailsxAxis|safe }},
+        yAxis: {{ detailsyAxis|safe }},
+		credits: false,
+        plotOptions: {{ detailsplotOptions|safe }},
+        series: {{ detailsseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(adult_or_pediatric).highcharts({
+        chart: {{ adult_or_pediatricchart|safe }},
+        title: {{ adult_or_pediatrictitle|safe }},
+        xAxis: {{ adult_or_pediatricxAxis|safe }},
+        yAxis: {{ adult_or_pediatricyAxis|safe }},
+		credits: false,
+        plotOptions: {{ adult_or_pediatricplotOptions|safe }},
+        series: {{ adult_or_pediatricseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(access).highcharts({
+        chart: {{ accesschart|safe }},
+        title: {{ accesstitle|safe }},
+        xAxis: {{ accessxAxis|safe }},
+        yAxis: {{ accessyAxis|safe }},
+		credits: false,
+        plotOptions: {{ accessplotOptions|safe }},
+        series: {{ accessseries|safe }},
+		});
+	});
+
+
+</script>
+{% endblock %}
+
+
+
+
+{% endblock %}

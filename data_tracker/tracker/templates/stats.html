@@ -1,0 +1,172 @@
+{% extends base %}
+
+{% block content %}
+{% block extrahead %}
+    <!-- Load in jQuery and HighCharts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+{% endblock %}
+
+	<center>
+    <div class="tabbed">
+      <input name="tabbed" id="tabbed0" type="radio" checked>
+      <section>
+        <h1>
+          <label for="tabbed0">summary</label>
+        </h1>
+        <div>
+          <p> Total studies: {{ total }} </p>
+      		<p> Number of datasets available in cBioPortal: {{ available }} </p>
+      		<p> Number of data requests in progress: {{ enroute }}</p>
+      		<p> Number of datasets with associated ciations: {{ citations }}</p>
+        </div>
+      </section>
+    {% for chart_name in chart_names %}
+          <input name="tabbed" id="tabbed{{ forloop.counter }}" type="radio">
+          <section>
+            <h1>
+              <label for="tabbed{{ forloop.counter }}">{{ chart_name }}</label>
+            </h1>
+            <div>
+              <div id={{ chart_name }} style="height:100%; width:30%"></div>
+            </div>
+          </section>
+		{% endfor %}
+  </div>
+
+	</center>
+
+{% block overwrite %}
+<!-- Overwrite the base.html jQuery load and put in head for Highcharts to work -->
+{% endblock %}
+
+
+{% block extrajs %}
+<!-- Maps the Python template context variables from views.py to the Highchart js variables -->
+<script>
+{% for chart_name in chart_names %}
+	var chart_id = {{ chart_name }}
+{% endfor %}
+{% for chart_name in chart_names %}
+	{% for tag in tags %}
+			var {{ tag }} = {{ tag }}
+	{% endfor %}
+{% endfor %}
+</script>
+
+<!-- Highchart js. Variable map shown above -->
+<script>
+
+$(document).ready(function() {
+$(tissue).highcharts({
+        chart: {{ tissuechart|safe }},
+        title: {{ tissuetitle|safe }},
+        xAxis: {{ tissuexAxis|safe }},
+        yAxis: {{ tissueyAxis|safe }},
+        credits: false,
+        plotOptions: {{ tissueplotOptions|safe }},
+        series: {{ tissueseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(details).highcharts({
+        chart: {{ detailschart|safe }},
+        title: {{ detailstitle|safe }},
+        xAxis: {{ detailsxAxis|safe }},
+        yAxis: {{ detailsyAxis|safe }},
+        credits: false,
+        plotOptions: {{ detailsplotOptions|safe }},
+        series: {{ detailsseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(adult_or_pediatric).highcharts({
+        chart: {{ adult_or_pediatricchart|safe }},
+        title: {{ adult_or_pediatrictitle|safe }},
+        xAxis: {{ adult_or_pediatricxAxis|safe }},
+        yAxis: {{ adult_or_pediatricyAxis|safe }},
+        credits: false,
+        plotOptions: {{ adult_or_pediatricplotOptions|safe }},
+        series: {{ adult_or_pediatricseries|safe }},
+		});
+	});
+$(document).ready(function() {
+$(access).highcharts({
+        chart: {{ accesschart|safe }},
+        title: {{ accesstitle|safe }},
+        xAxis: {{ accessxAxis|safe }},
+        yAxis: {{ accessyAxis|safe }},
+        credits: false,
+        plotOptions: {{ accessplotOptions|safe }},
+        series: {{ accessseries|safe }},
+		});
+	});
+
+
+</script>
+
+<style>
+.tabbed > input{
+  display : none;
+}
+
+.tabbed > input:first-child + section > h1{
+  padding-left : 1em;
+}
+
+.tabbed > input:not(:checked) + section > div{
+  display : none;
+}
+
+.tabbed > input:checked + section > h1{
+  position : relative;
+  z-index  : 2;
+}
+
+.tabbed > section > h1{
+  float : left;
+  box-sizing  : border-box;
+  margin      : 0;
+  padding     : 0.5em 0.5em 0;
+  overflow    : hidden;
+  font-size   : 1em;
+  font-weight : normal;
+}
+
+.tabbed > section > div{
+  float  : right;
+  width  : 100%;
+  margin : 2.5em 0 0 -100%;
+  box-sizing    : border-box;
+  padding       : 0.5em 0.75em;
+  border        : 1px solid #ddd;
+  border-radius : 4px;
+  box-shadow    : 0 0 0.5em rgba(0,0,0,0.0625);
+  background    : #fff;
+  position : relative;
+  z-index  : 1;
+}
+
+.tabbed{
+  float : left;
+  width : 100%;
+}
+
+.tabbed > section > h1 > label{
+  display                 : block;
+  padding                 : 0.25em 0.75em;
+  border                  : 1px solid #ddd;
+  border-bottom           : none;
+  border-top-left-radius  : 4px;
+  border-top-right-radius : 4px;
+  box-shadow              : 0 0 0.5em rgba(0,0,0,0.0625);
+  background              : #fff;
+}
+</style>
+
+{% endblock %}
+
+
+
+
+{% endblock %}

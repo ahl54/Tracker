@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-style-5">
+<form method="POST" class="post-form">{% csrf_token %}
+  <fieldset> <p> Incorrect email or password <p> </fieldset>
+	<fieldset> <div class="field-style-vert"> {{ form }} </div> </fieldset>
+  <fieldset> <input type="submit" value="Login" /> </fieldset>
+  <fieldset> <h2><a href="/tracker/register">Register</a></h2> </fieldset>
+</form>
+</div>
+{% endblock %}

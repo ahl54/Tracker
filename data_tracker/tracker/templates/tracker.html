@@ -1,0 +1,103 @@
+{% extends base %}
+{% load staticfiles %}
+
+{% block content %}
+<link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
+
+<center>
+{% for obj in objects %}
+  {% if obj.trackerID == 5 %}
+
+      <div class= "box_header_spider">
+        <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+        {% if obj.L1 == '1' %}
+        <p class = "li-icon">
+          <span class="glyphicon glyphicons-log-book">Contains L1 data</span>
+        </p><br/>
+        {% endif %}
+      </div>
+      <div class= "box">
+        <ol class="progtrckr" data-progtrckr-steps="5">
+          <li class="progtrckr-done">Request Received</li>
+          <li class="progtrckr-done">Data Downloaded</li>
+          <li class="progtrckr-done">Data in Staging</li>
+          <li class="progtrckr-done">Data in (S3) Cavatica</li>
+          <li class="progtrckr-done">Available in Cavatica</li>
+        </ol>
+      </div>
+  {% elif obj.trackerID == 4 %}
+      <div class= "box_header_mortar">
+        <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+        <a href={{obj.cbio_link}} class = "li-icon">
+          <span class="glyphicon glyphicon-share-alt"></span>
+        </a><br/>
+      </div>
+      <div class= "box">
+        <ol class="progtrckr" data-progtrckr-steps="5">
+          <li class="progtrckr-done">Request Received</li>
+          <li class="progtrckr-done">Data Downloaded</li>
+          <li class="progtrckr-done">Data in Staging</li>
+          <li class="progtrckr-done">Data in Database</li>
+          <li class="progtrckr-done">Available in cBioPortal</li>
+        </ol>
+      </div>
+
+  {% elif obj.trackerID == 3 %}
+    <div class= "box_header_fresh">
+		    <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+	  </div>
+	<div class= "box">
+		<ol class="progtrckr" data-progtrckr-steps="5">
+			<li class="progtrckr-done">Request Received</li>
+			<li class="progtrckr-done">Data Downloaded</li>
+			<li class="progtrckr-done">Data in Staging</li>
+			<li class="progtrckr-done">Data in S3/Database</li>
+			<li class="progtrckr-todo">Available</li>
+	</div>
+	{% elif obj.trackerID == 2 %}
+	<div class= "box_header_minty">
+		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+	</div>
+	<div class= "box">
+	<ol class="progtrckr" data-progtrckr-steps="5">
+		<li class="progtrckr-done">Request Received</li>
+		<li class="progtrckr-done">Data Downloaded</li>
+		<li class="progtrckr-done">Data in Staging</li>
+    <li class="progtrckr-todo">Data in S3/Database</li>
+		<li class="progtrckr-todo">Available</li>
+		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+		<a href={{obj.link}} align="right"></a><br/>
+	</div>
+	</ol>
+	</div>
+	{% elif obj.trackerID == 1 %}
+	<div class= "box_header_halves">
+		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+	</div>
+	<div class= "box">
+	<ol class="progtrckr" data-progtrckr-steps="5">
+		<li class="progtrckr-done">Request Received</li>
+		<li class="progtrckr-done">Data Downloaded</li>
+		<li class="progtrckr-todo">Data in Staging</li>
+		<li class="progtrckr-todo">Data in S3/Database</li>
+		<li class="progtrckr-todo">Available</li>
+	</ol>
+	</div>
+	{% else %}
+	<div class= "box_header_mortar">
+		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a><br/>
+	</div>
+	<div class= "box">
+	<ol class="progtrckr" data-progtrckr-steps="5">
+		<li class="progtrckr-done">Request Received</li>
+		<li class="progtrckr-todo">Data Downloaded</li>
+		<li class="progtrckr-todo">Data in Staging</li>
+		<li class="progtrckr-todo">Data in S3/Database</li>
+		<li class="progtrckr-todo">Available</li>
+	</ol>
+	</div>
+	{% endif %}
+{% endfor %}
+</center>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="track">
+
+
+{% for obj in objects %}
+ 
+{% if obj.trackerID == '3' %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar aria-valuenow="25"
+  aria-valuemin="0" aria-valuemax="100" style="width:100%;">
+    <p>{{ obj.study_name }}</p>
+  </div><p>Available</p>
+</div>
+{% elif obj.trackerID == '2' %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="50"
+  aria-valuemin="0" aria-valuemax="100" style="width:75%;">
+    <p>{{ obj.study_name }}</p>
+  </div><p>in Database</p>
+</div>
+{% elif obj.trackerID == '1' %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="75"
+  aria-valuemin="0" aria-valuemax="100" style="width:50%;">
+    <p>{{ obj.study_name }}</p>
+  </div><p>in Staging</p>
+</div>
+{% else %}
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="100"
+  aria-valuemin="0" aria-valuemax="100" style="width:25%;">
+    <p>{{ obj.study_name }}</p>
+  </div><p>request received</p>
+</div>
+{% endif %}
+
+<style = "text/css">
+.progress{
+	background-color: #109177;
+	color: #222222;
+	background: #d2d9dd;
+	height: 30px;
+	margin-left: 200px;
+	margin-right: 200px;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+p{
+	text-align: left;
+	text-transform: capitalize;
+	text-indent: 5px;
+	line-height: 300%;
+}
+</style>
+
+<!--
+
+<div class="row bs-wizard" style="border-bottom:0;">  
+        
+    <div class="row bs-wizard" style="border-bottom:0;">
+                
+                <div class="col-xs-3 bs-wizard-step complete">
+                  <div class="text-center bs-wizard-stepnum"></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Data request received</div>
+                </div>
+                
+                <div class="col-xs-3 bs-wizard-step complete">
+                  <div class="text-center bs-wizard-stepnum"></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Data obtained in staging area</div>
+                </div>
+                
+                <div class="col-xs-3 bs-wizard-step active">
+                  <div class="text-center bs-wizard-stepnum"></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Data sent to cBioPortal database</div>
+                </div>
+                
+                <div class="col-xs-3 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum"></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Data available in cBioPortal App</div>
+                </div>
+            </div>
+        
+	</div>
+		
+</div> -->
+
+
+{%endfor%}
+{% endblock %}
+

@@ -1,0 +1,101 @@
+{% extends 'tracker/base.html' %}
+
+
+{% block content %}
+<div class="form-style-5">
+    <form method="POST" class="post-form">{% csrf_token %}
+        <fieldset>
+            <legend><span class="number">1</span>Contact Information</legend>
+                <div><label>Requester Name</label>
+                    <input type="text" name="requester_name" value="{{ current_name }}" required>
+                </div>
+                <div><label>Phone</label>
+                    <input type="tel" name="phone_number"  required>
+                </div>
+				
+                <div><label>Email</label>
+                    <input type="email" name="email_address" required>
+                </div> 
+            
+        </fieldset>
+        <fieldset>
+            <legend><span class="number">2</span>Data Request Information</legend>
+            
+                <div><label>Accession</label>
+                    <input type="text" name="accession">
+                </div>
+            
+            
+                <div><label>Study Name</label>
+                    <input type="text" name="study_name" required>
+                </div>
+            
+            
+                <div><label>Source</label>
+                    <input type="text" name="source">
+                </div>
+            
+            
+                <div><label>Link</label>
+                    <input type="url" name="link" required>
+                </div>
+            
+            
+                <div><label>Number of Samples</label>
+                    <input type="number" name="samples">
+                </div>
+            
+            
+                <div><label>Tissue</label>
+                    <input type="text" name="tissue">
+                </div>
+            
+            
+                <div><label>Adult or Pediatric</label>
+                    <select>
+                        <optgroup label="Adult or Pediatric">
+                            <option>Unknown</option>
+                            <option>Adult</option>
+                            <option>Pediatric</option>
+                        </optgroup>
+                    </select>
+                </div>
+            
+            
+                <div><label>Citation</label>
+                    <input type="pmid" name="citation">
+                </div>
+            
+            
+                <div><label>Details</label>
+                    <input type="text" name="study_details">
+                </div>
+            
+            
+                <div><label>Access</label>
+                    <select>
+                        <optgroup label="Access">
+                            <option>Restricted</option>
+                            <option>Open</option>
+                        </optgroup>
+                    </select>
+                </div>
+            
+            
+                <div><label>Priority</label>
+                    <select>
+                        <optgroup label="Priority">
+                            <option>None</option>
+                            <option>Not to be added</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </optgroup>
+                    </select>
+                </div>
+            
+        </fieldset>
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+{% endblock %}

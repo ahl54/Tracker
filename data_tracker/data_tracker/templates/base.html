@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+{% load bootstrap3 %}
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap -->
+		<link href="{% static 'tracker/css/bootstrap-combined.min.css' %}" rel="stylesheet">
+		<link href="{% static 'tracker/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+
+		<!-- Styling -->
+		<link href="{% static 'tracker/css/style.css' %}" rel="stylesheet"> 
+
+	</head>
+
+  <body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+
+				<div class="navbar-brand" >Data Tracker</div>
+				</button> <div class="navbar-brand" a href="/" class="menu">Request</div>
+				</button> <div class="navbar-brand" a href="/" class="menu">About</div>
+				</button> <div class="navbar-brand" a href="/" class="menu">Contact</div>
+			
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+		
+    {% block content %}
+    {% endblock %}
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+  </body>
+  
+  <footer>
+    <div class="container">
+        <p>&copy; Data Tracker 2015</p>
+    </div>
+  </footer>
+
+</html>

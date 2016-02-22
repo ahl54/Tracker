@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
 
 # C extensions
 *.so
@@ -43,7 +42,6 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
-.hypothesis/
 
 # Translations
 *.mo
@@ -58,5 +56,19 @@ docs/_build/
 # PyBuilder
 target/
 
-#Ipython Notebook
-.ipynb_checkpoints
+# Sensitive Data
+settings.py
+secret_key.txt
+settings.py
+data_tracker/data_tracker/settings.py
+trackerSite/data_tracker/data_tracker/settings.py
+settings.pyc
+secret_key.txt
+
+# Locally unique database for testing only
+dataRequests.db
+dataRequests.sqlite3
+manage_001.py
+*.csv
+*.pyc
+*.DS_Store

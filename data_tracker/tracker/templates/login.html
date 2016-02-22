@@ -1,0 +1,18 @@
+{% extends base %}
+
+{% block content %}
+
+{% if authenticed %}
+<center><h1> Welcome {{ user.username }}</h1></center>
+
+{% else %}
+<div class="form-style-5">
+<form method="POST" class="post-form">{% csrf_token %}
+	<fieldset> <div class="field-style-vert"> {{ form }} </div> </fieldset>
+  <fieldset> <input type="submit" value="Login" /> </fieldset>
+  <fieldset> <h2><a href="/tracker/register">Register</a></h2> </fieldset>
+</form>
+</div>
+{% endif %}
+
+{% endblock %}
