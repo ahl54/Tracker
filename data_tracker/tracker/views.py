@@ -330,7 +330,7 @@ class Email():
             body = body + property + ": " + str(value) + '\n'
         body = body
 
-        #send_mail('New Request from Data Tracker', body, admin2, [admin2])
+        send_mail('New Request from Data Tracker', body, admin2, [admin2])
 
     def confirm(self):
         latest_obj = Tracker.objects.all().order_by('-id')[0]
