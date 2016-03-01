@@ -49,7 +49,7 @@ class TrackerUserCreationForm(UserCreationForm):
 
     class Meta:
         model = TrackerUser
-        fields = ("username",)
+        fields = ()
     """
     username = forms.EmailField(widget=forms.TextInput,label="Username")
     email = forms.EmailField(widget=forms.TextInput,label="Email")
