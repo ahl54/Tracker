@@ -33,10 +33,12 @@ from datetime import datetime
 # Views for each page are created below with functions implemented
 
 def index(request):
-    return render(request, 'tracker.html', {'base': base})
+    return render(request, 'tracker.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 LOGIN_URL = '/login.html'
 base = 'base.html'
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-73248809-3'
+
 
 def login(request):
     base = base_config(request)
@@ -52,16 +54,16 @@ def login(request):
                     auth.login(request, user)
                     request.session['authenticated'] = True
                     base = base_config(request)
-                    return render(request, 'login_valid.html',{'form': form, 'base': base, 'user': user})
+                    return render(request, 'login_valid.html',{'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID, 'user': user})
                 else:
                     return render(request, 'login_disabled.html')
             else:
                 print "Invalid login details: {0}, {1}".format(username, password)
-                return render(request, 'login_invalid.html', {'form': form, 'base': base})
+                return render(request, 'login_invalid.html', {'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
     else:
         form = LoginForm()
         base = 'base.html'
-    return render(request, 'login.html', {'form': form, 'base': base})
+    return render(request, 'login.html', {'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 def login_invalid(request):
     return render(request, 'login_invalid.html')
@@ -77,7 +79,7 @@ def logout(request):
     auth.logout(request)
     request.session['authenticated'] = False
     base = base_config(request)
-    return render(request, 'logout.html', {'base': base})
+    return render(request, 'logout.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 def register(request):
     base = base_config(request)
@@ -89,10 +91,10 @@ def register(request):
             #TODO need user_id to auto increment here
             post.save()
             registered = True
-            return render(request, 'login.html',{'form': form, 'base': base})
+            return render(request, 'login.html',{'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
     else:
         form = TrackerUserCreationForm()
-    return render(request, 'register.html', {'form': form, 'base': base})
+    return render(request, 'register.html', {'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 @login_required(redirect_field_name=LOGIN_URL)
 def base_internal(request):
@@ -108,7 +110,7 @@ def manage(request):
     base = base_config(request)
     email=request.user
     objects = Tracker.objects.filter(email=email)
-    results = {'objects': objects, 'base': base}
+    results = {'objects': objects, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
     return render(request, 'manage.html', results)
 
 @login_required(redirect_field_name=LOGIN_URL)
@@ -116,7 +118,7 @@ def unsubscribe(request):
     base = 'base_internal.html'
     # if clicked onto this unique page from an unsubscribe link in an email
     # TODO write unsubscribe action to pass the uuid into url and update the model for that entry to both summary 0 and subscription 0
-    return render(request, 'unsubscribe.html', {'base': base})
+    return render(request, 'unsubscribe.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 def stats(request):
     base = base_config(request)
@@ -167,7 +169,7 @@ def tracker(request):
     #order from most recent requests
     base = base_config(request)
     objects = Tracker.objects.all()
-    results = {'objects': objects, 'base': base}
+    results = {'objects': objects, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
     return render(request, 'tracker.html', results)# results)
 
 def thanks(request):
