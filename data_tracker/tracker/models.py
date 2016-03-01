@@ -83,7 +83,7 @@ class Tracker(models.Model):
     source = models.CharField(max_length=245, blank=True) #, help_text='Childrens Hospital of Philadelpia')
     link = models.URLField(max_length=245, blank=True) #, help_text='https://www.cbttc.org')
     cbio_link = models.URLField(max_length=245)
-    samples = models.IntegerField(blank=True)
+    samples = models.IntegerField(default=0)
     tissue = models.CharField(max_length=245, blank=True) #, help_text='breast carcinoma')
     adult_or_pediatric = models.CharField(max_length=50, choices=AGE_CHOICES, default='Unknown')
     PMID = models.IntegerField(null=True, blank=True) #, help_text='121326')
