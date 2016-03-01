@@ -168,7 +168,7 @@ def tracker(request):
     base = base_config(request)
     objects = Tracker.objects.all()
     results = {'objects': objects, 'base': base}
-    return render(request, 'tracker.html', results)
+    return render(request, 'tracker.html', results)# results)
 
 def thanks(request):
 
