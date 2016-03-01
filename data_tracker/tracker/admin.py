@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Tracker, TrackerUser, TrackerGroup
+from .forms import TrackerForm, LoginForm, RegisterForm
 #TODO from .models import SubTracker
 
 # Register your models here.

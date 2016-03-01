@@ -62,7 +62,7 @@ SUMMARY_CHOICES = (
 
 # Admin defined groups here
 GROUP_CHOICES = (
-    ('0', 'None'),
+    ('0', 'NONE'),
     ('1', 'CBTTC'),
     ('2', 'SU2C'),
     ('3', 'PNOC'),
@@ -151,13 +151,40 @@ class Tracker(models.Model):
 
 # Custom manager for TrackerUser
 class TrackerUserManager(BaseUserManager):
+    def _create_user(self, email, password,
+                     is_staff, is_superuser, **extra_fields):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        now = timezone.now()
+        if not email:
+            raise ValueError('The given email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email,
+                          is_staff=is_staff, is_active=True,
+                          is_superuser=is_superuser, last_login=now,
+                          date_joined=now, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        return self._create_user(email, password, False, False,
+                                 **extra_fields)
+
+    def create_superuser(self, email, password, **extra_fields):
+        return self._create_user(email, password, True, True,
+                                 **extra_fields)
+    """
     def create_user(self, email, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=MyUserManager.normalize_email(email),
-        )
+        email = self.normalize_email(email)
+        user = self.model(email=email,
+          is_staff=is_staff, is_active=True,
+          is_superuser=is_superuser, last_login=now,
+          date_joined=now, **extra_fields)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -170,7 +197,7 @@ class TrackerUserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
-
+        """
 # An extension of Django's built-in user class
 class TrackerUser(AbstractBaseUser):
     #user = models.ForeignKey(User, )
@@ -179,15 +206,15 @@ class TrackerUser(AbstractBaseUser):
     name = models.CharField(max_length=45)
     group = models.ManyToManyField(Group)
     email = models.EmailField(unique=False, db_index=True)
-    username = models.CharField(max_length=45, null=True, blank=True)
+    #username = email
+    #username = models.CharField(max_length=45, null=True, blank=True)
 
     #group = models.ForeignKey(Group, related_name='User')
     # TODO Make user to groups relationship many to many to groups
     # Does this cause a circular dependency if there's already a many to many field in TrackerGroup?
-
-    REQUIRED_FIELDS = ['email']
     objects = TrackerUserManager()
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['email']
 
     def __unicode__(self):
         return u"%s" % (self.name) #add rest of fields here
@@ -203,6 +230,7 @@ class TrackerGroup(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.group) #add rest of fields here
+
 
 # class SubTracker(Tracker)
 ### HIGH PRIORITY

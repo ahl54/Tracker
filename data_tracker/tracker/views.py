@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.db.models import Count
 from collections import Counter
 # form imports
-from .forms import TrackerForm, LoginForm, RegisterForm
+from .forms import TrackerForm, LoginForm, RegisterForm, TrackerUserCreationForm
 from tracker.models import Tracker, TrackerFilter
 from django_tables2 import RequestConfig
 # filter imports
@@ -82,16 +82,16 @@ def logout(request):
 def register(request):
     base = base_config(request)
     if request.method == 'POST':
-        form = RegisterForm(request.POST or None)
+        form = TrackerUserCreationForm(request.POST or None)
         if form.is_valid():
             post = form.save(commit=False)
             #post.user_id = models.IntegerField(primary_key=True)
             #TODO need user_id to auto increment here
             post.save()
             registered = True
-            return HttpResponseRedirect('base_internal.html')
+            return render(request, 'login.html',{'form': form, 'base': base})
     else:
-        form = RegisterForm()
+        form = TrackerUserCreationForm()
     return render(request, 'register.html', {'form': form, 'base': base})
 
 @login_required(redirect_field_name=LOGIN_URL)
