@@ -63,7 +63,7 @@ def login(request):
     else:
         form = LoginForm()
         base = 'base.html'
-    return render(request, 'login.html', {'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
+    return render(request, 'login.html', {'form': form, 'base': base})
 
 def login_invalid(request):
     return render(request, 'login_invalid.html')
@@ -135,7 +135,7 @@ def stats(request):
     enroute = total - available
 
 	### add any additional charts to generate to chart_names
-    chart_names = ['tissue', 'details', 'adult_or_pediatric', 'access']
+    chart_names = ['cancer_type', 'details', 'adult_or_pediatric', 'access']
     attr_names = ['chart', 'title', 'xAxis', 'yAxis', 'plotOptions', 'credits', 'series']
 
 	#generate variable tags for javascript mapping by concatenating chart_names to attributes
@@ -241,7 +241,7 @@ class FilteredSingleTableView(SingleTableView):
         self.filter.helper.form_tag = True
 
         self.filter.helper.layout = Layout(
-            'tissue',
+            'cancer_type',
             'adult_or_pediatric',
             'details',
             'access',
@@ -269,32 +269,32 @@ class ChartData():
     chart_height = ''
 
     def tracker_data(self):
-        data = {'tissue': [], 'adult_or_pediatric': [],
-                'sample_type': [], 'access': []}
+        data = {'cancer_type': [], 'adult_or_pediatric': [],
+                'specimen_type': [], 'access': []}
 
         objects = Tracker.objects.all()
 
         for entry in objects:
-            data['tissue'].append(entry.tissue)
+            data['cancer_type'].append(entry.cancer_type)
             data['adult_or_pediatric'].append(entry.adult_or_pediatric)
-            data['sample_type'].append(entry.sample_type)
+            data['specimen_type'].append(entry.specimen_type)
             data['access'].append(entry.access)
-            data['tissue'] = [dat.encode('UTF-8') for dat in data['tissue']]
+            data['cancer_type'] = [dat.encode('UTF-8') for dat in data['cancer_type']]
 
 	# x-axis categories of distinct values
-        tissue_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('tissue', flat=True)])
+        cancer_type_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('cancer_type', flat=True)])
         aop_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('adult_or_pediatric', flat=True)])
         access_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('access', flat=True)])
-        details_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('sample_type', flat=True)])
+        details_ct = Counter([dat.encode('UTF-8') for dat in Tracker.objects.values_list('specimen_type', flat=True)])
 
 
-        data['unique_tissue'] = tissue_ct.keys()
+        data['unique_cancer_type'] = cancer_type_ct.keys()
         data['unique_adult_or_pediatric'] = aop_ct.keys()
         data['unique_access'] = access_ct.keys()
         data['unique_details'] = details_ct.keys()
 
 	# y-axis counts of frequencies per values
-        data['count_tissue'] = dict(tissue_ct).items()
+        data['count_cancer_type'] = dict(cancer_type_ct).items()
         data['count_adult_or_pediatric'] = dict(aop_ct).items()
         data['count_access'] = dict(access_ct).items()
         data['count_details'] = dict(details_ct).items()

@@ -2,14 +2,14 @@
 {% load staticfiles %}
 
 {% block content %}
-<link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
+<study_link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
 
 <center>
 {% for obj in objects %}
   {% if obj.trackerID == 5 %}
 
       <div class= "box_header_spider">
-        <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+        <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
         {% if obj.L1 == '1' %}
         <p class = "li-icon">
           <span class="glyphicon glyphicons-log-book">Contains L1 data</span>
@@ -27,7 +27,7 @@
       </div>
   {% elif obj.trackerID == 4 %}
       <div class= "box_header_mortar">
-        <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+        <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
         <a href={{obj.cbio_link}} class = "li-icon">
           <span class="glyphicon glyphicon-share-alt"></span>
         </a><br/>
@@ -44,7 +44,7 @@
 
   {% elif obj.trackerID == 3 %}
     <div class= "box_header_fresh">
-		    <a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+		    <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
 	  </div>
 	<div class= "box">
 		<ol class="progtrckr" data-progtrckr-steps="5">
@@ -56,7 +56,7 @@
 	</div>
 	{% elif obj.trackerID == 2 %}
 	<div class= "box_header_minty">
-		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
 	</div>
 	<div class= "box">
 	<ol class="progtrckr" data-progtrckr-steps="5">
@@ -65,14 +65,14 @@
 		<li class="progtrckr-done">Data in Staging</li>
     <li class="progtrckr-todo">Data in S3/Database</li>
 		<li class="progtrckr-todo">Available</li>
-		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
-		<a href={{obj.link}} align="right"></a><br/>
+		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+		<a href={{obj.study_link}} align="right"></a><br/>
 	</div>
 	</ol>
 	</div>
 	{% elif obj.trackerID == 1 %}
 	<div class= "box_header_halves">
-		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a>
+		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
 	</div>
 	<div class= "box">
 	<ol class="progtrckr" data-progtrckr-steps="5">
@@ -85,7 +85,7 @@
 	</div>
 	{% else %}
 	<div class= "box_header_mortar">
-		<a href={{obj.link}}><b>{{ obj.study_name }}</b></a><br/>
+		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a><br/>
 	</div>
 	<div class= "box">
 	<ol class="progtrckr" data-progtrckr-steps="5">

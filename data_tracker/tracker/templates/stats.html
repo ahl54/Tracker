@@ -58,14 +58,14 @@
 <script>
 
 $(document).ready(function() {
-$(tissue).highcharts({
-        chart: {{ tissuechart|safe }},
-        title: {{ tissuetitle|safe }},
-        xAxis: {{ tissuexAxis|safe }},
-        yAxis: {{ tissueyAxis|safe }},
+$(cancer_type).highcharts({
+        chart: {{ cancer_typechart|safe }},
+        title: {{ cancer_typetitle|safe }},
+        xAxis: {{ cancer_typexAxis|safe }},
+        yAxis: {{ cancer_typeyAxis|safe }},
         credits: false,
-        plotOptions: {{ tissueplotOptions|safe }},
-        series: {{ tissueseries|safe }},
+        plotOptions: {{ cancer_typeplotOptions|safe }},
+        series: {{ cancer_typeseries|safe }},
 		});
 	});
 $(document).ready(function() {

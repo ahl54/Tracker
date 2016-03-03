@@ -78,17 +78,18 @@ class Tracker(models.Model):
     requester_name = models.CharField(max_length=245) #, help_text='Jane Smith')
     email = models.EmailField()
     accession = models.CharField(max_length=200, blank=True) #, help_text='EGA-0000000')
-    study_name = models.CharField(max_length=345) #, help_text='TCGA Invasive Breast Carcinoma')
-    name = models.CharField(max_length=200, default='source_cancer_type_number')
+    description = models.CharField(max_length=345) #, help_text='TCGA Invasive Breast Carcinoma')
+    dataset_name = models.CharField(max_length=200, default='source_cancertype_sampletype_ID')
     source = models.CharField(max_length=245, blank=True) #, help_text='Childrens Hospital of Philadelpia')
-    link = models.URLField(max_length=245, blank=True) #, help_text='https://www.cbttc.org')
+    study_link = models.URLField(max_length=245, blank=True) #, help_text='https://www.cbttc.org')
+    s3_link = models.URLField(max_length=245, blank=True)
     cbio_link = models.URLField(max_length=245)
     samples = models.IntegerField(default=0)
-    tissue = models.CharField(max_length=245, blank=True) #, help_text='breast carcinoma')
+    cancer_type = models.CharField(max_length=245, blank=True) #, help_text='breast carcinoma')
     adult_or_pediatric = models.CharField(max_length=50, choices=AGE_CHOICES, default='Unknown')
     PMID = models.IntegerField(null=True, blank=True) #, help_text='121326')
     citation = models.CharField(max_length=245, blank=True) #, help_text='John, et. al. Nature 2016')
-    sample_type = models.CharField(max_length=245, blank=True) #, help_text='tissue, cell line, or xenograft')
+    specimen_type = models.CharField(max_length=245, blank=True) #, help_text='tissue, cell line, or xenograft')
     details = models.CharField(max_length=245, blank=True) #, help_text='WTS, WGS, WES, RNA-Seq')
     access = models.CharField(max_length=10, choices=ACCESS_CHOICES, default='Unknown')
     priority = models.IntegerField(default=0, blank=True) #, help_text='0-none, 1-low, 2-medium, 3-high')
@@ -248,7 +249,6 @@ class TrackerFilter(django_filters.FilterSet):
 
     class Meta:
         model = Tracker
-        # TODO ask if sample_type tissue is necessary to distinguish from data_type DNA/RNA/WGS/WES
-        fields = ['study_name', 'tissue', 'adult_or_pediatric', 'group', 'access']
+        fields = ['dataset_name', 'cancer_type', 'adult_or_pediatric', 'group', 'access', 'details', 'accession']
         orderable = True
         attrs = {"class": "paleblue"}

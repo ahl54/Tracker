@@ -17,10 +17,11 @@ class GlyphColumn(tables.Column):
                     )
 
 class TrackerTable(tables.Table):
-    study_name = tables.Column()
-    tissue = tables.Column()
-    link = GlyphColumn()
+    description = tables.Column()
+    cancer_type = tables.Column()
+    study_link = GlyphColumn()
     cbio_link = GlyphColumn()
+    s3_link = GlyphColumn()
     adult_or_pediatric = tables.Column()
     details = tables.Column()
     trackerID = tables.TemplateColumn ('{{ record.trackerID }}')
@@ -32,6 +33,6 @@ class TrackerTable(tables.Table):
 
     class Meta:
         model = Tracker
-        exclude =("uuid", "id", "time", "requester_name", "email", "accession", "details", "trackerID", "priority", "confirmation", "subscription", "summary")
+        exclude =("uuid", "id", "time", "requester_name", "email", "accession", "description", "details", "trackerID", "L1", "citations", "priority", "confirmation", "subscription", "summary", "s3_link")
         orderable = True
         attrs = {"class": "paleblue"}

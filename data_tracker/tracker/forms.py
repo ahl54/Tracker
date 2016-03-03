@@ -6,7 +6,7 @@ class TrackerForm(forms.ModelForm):
 
     class Meta:
         model = Tracker
-        fields = ('requester_name', 'email', 'accession', 'study_name', 'source', 'link', 'samples', 'tissue', 'adult_or_pediatric', 'citation', 'details', 'priority', 'confirmation', 'subscription', 'summary')
+        fields = ('requester_name', 'email', 'accession', 'source', 'study_link', 'samples', 'cancer_type', 'adult_or_pediatric', 'PMID', 'citation', 'details', 'confirmation', 'subscription')
         widgets = {'myfield': forms.TextInput(attrs={'div': 'field-style-vert'})}
 
 class LoginForm(forms.ModelForm):
