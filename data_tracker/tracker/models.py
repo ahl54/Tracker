@@ -79,13 +79,13 @@ class Tracker(models.Model):
     email = models.EmailField()
     accession = models.CharField(max_length=200, blank=True) #, help_text='EGA-0000000')
     description = models.CharField(max_length=345) #, help_text='TCGA Invasive Breast Carcinoma')
-    dataset_name = models.CharField(max_length=200, default='source_cancertype_sampletype_ID')
     source = models.CharField(max_length=245, blank=True) #, help_text='Childrens Hospital of Philadelpia')
     study_link = models.URLField(max_length=245, blank=True) #, help_text='https://www.cbttc.org')
     s3_link = models.URLField(max_length=245, blank=True)
     cbio_link = models.URLField(max_length=245)
     samples = models.IntegerField(default=0)
     cancer_type = models.CharField(max_length=245, blank=True) #, help_text='breast carcinoma')
+    sample_type = models.CharField(max_length=245, blank=True) # patient, xenograft, cellline, germline
     adult_or_pediatric = models.CharField(max_length=50, choices=AGE_CHOICES, default='Unknown')
     PMID = models.IntegerField(null=True, blank=True) #, help_text='121326')
     citation = models.CharField(max_length=245, blank=True) #, help_text='John, et. al. Nature 2016')
@@ -99,13 +99,16 @@ class Tracker(models.Model):
     confirmation = models.CharField(max_length=100, choices=CONFIRMATION_CHOICES, default='0')
     subscription = models.CharField(max_length=100, choices=SUBSCRIPTION_CHOICES, default='0')
     summary = models.CharField(max_length=100, choices=SUMMARY_CHOICES, default='0')
+    # TODO auto generate dataset_name from source, cancer abbrv,
+    dataset_name = models.CharField(max_length=345, blank=True)
+
     #link to S3 bucket to be added
     __original_trackerID = None
     __original_time = None
 
     def __str__(self):
-        #return "{0}, {1}".format(self.study_name, self.L1) #join tuples using this
-        return u"%s" % (self.study_name)
+        #return "{0}, {1}".format(self.dataset_name, self.L1) #join tuples using this
+        return u"%s" % (self.dataset_name)
 
     def has_changed(instance, field):
         if not instance.pk:

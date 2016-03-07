@@ -113,6 +113,26 @@ def manage(request):
     results = {'objects': objects, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
     return render(request, 'manage.html', results)
 
+#@login_required(redirect_field_name=LOGIN_URL)
+def loading(request):
+    base = base_config(request)
+    requests = Tracker.objects.filter(trackerID = '0')
+    raw = Tracker.objects.filter(trackerID = '1')
+    staging = Tracker.objects.filter(trackerID = '2')
+    S3 = Tracker.objects.filter(trackerID = '3')
+    cbioportal = Tracker.objects.filter(trackerID = '4')
+    cavatica = Tracker.objects.filter(trackerID = '5')
+    c0 = requests.count()
+    c1 = raw.count()
+    c2 = staging.count()
+    c3 = S3.count()
+    c4 = Tracker.objects.filter(trackerID='4').count()
+    c5 = cavatica.count()
+
+    results = {'base': base, 'requests': requests, 'raw': raw, 'staging': staging, 'S3': S3, 'cbioportal': cbioportal, 'cavatica': cavatica,
+                'c0': c0, 'c1': c1, 'c2': c2, 'c3': c3, 'c4': c4, 'c5': c5, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
+    return render(request, 'loading.html', results)
+
 @login_required(redirect_field_name=LOGIN_URL)
 def unsubscribe(request):
     base = 'base_internal.html'

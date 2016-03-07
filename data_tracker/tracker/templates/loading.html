@@ -1,0 +1,262 @@
+{% extends base %}
+{% load staticfiles %}
+
+{% block content %}
+{% block extrahead %}
+    <!-- Load in jQuery and HighCharts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <!-- Load in style sheets -->
+    <link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
+    <link href="{% static 'tracker/css/tabbed.css' %}" rel="stylesheet">
+{% endblock %}
+
+<center>
+</center>
+	<center>
+    <div class="tabbed">
+        </section>
+        <input name="tabbed" id="tabbed0" type="radio" checked>
+        <section>
+          <h1>
+            <label for="tabbed0">Requests ({{ c0 }})</label>
+          </h1>
+          <div>
+          <center>
+          </br>
+          </br>
+          </br>
+            {% for obj in requests %}
+            	<div class= "box_header_mortar">
+            		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a><br/>
+            	</div>
+            	<div class= "box">
+            	<ol class="progtrckr" data-progtrckr-steps="5">
+            		<li class="progtrckr-done">Request Received</li>
+            		<li class="progtrckr-todo">Data Downloaded</li>
+            		<li class="progtrckr-todo">Data in Staging</li>
+            		<li class="progtrckr-todo">Data in S3/Database</li>
+            		<li class="progtrckr-todo">Available</li>
+            	</ol>
+            	</div>
+            {% endfor %}
+          </center>
+          </div>
+        </section>
+      <input name="tabbed" id="tabbed1" type="radio">
+      <section>
+        <h1>
+          <label for="tabbed1">Raw ({{c1}})</label>
+        </h1>
+        <div>
+        <center>
+        </br>
+        </br>
+        </br>
+          {% for obj in raw %}
+            <div class= "box_header_halves">
+            	<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+            </div>
+            <div class= "box">
+            <ol class="progtrckr" data-progtrckr-steps="5">
+            	<li class="progtrckr-done">Request Received</li>
+            	<li class="progtrckr-done">Data Downloaded</li>
+            	<li class="progtrckr-todo">Data in Staging</li>
+            	<li class="progtrckr-todo">Data in S3/Database</li>
+            	<li class="progtrckr-todo">Available</li>
+            </ol>
+            </div>
+            {% endfor %}
+        </center>
+      </div>
+      </section>
+      <input name="tabbed" id="tabbed2" type="radio">
+      <section>
+        <h1>
+          <label for="tabbed2">Staging ({{c2}})</label>
+        </h1>
+        <div>
+        <center>
+        </br>
+        </br>
+        </br>
+          {% for obj in staging %}
+        	<div class= "box_header_minty">
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        	</div>
+        	<div class= "box">
+        	<ol class="progtrckr" data-progtrckr-steps="5">
+        		<li class="progtrckr-done">Request Received</li>
+        		<li class="progtrckr-done">Data Downloaded</li>
+        		<li class="progtrckr-done">Data in Staging</li>
+                <li class="progtrckr-todo">Data in S3/Database</li>
+        		<li class="progtrckr-todo">Available</li>
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        		<a href={{obj.study_link}} align="right"></a><br/>
+        	</div>
+        	</ol>
+        	</div>
+          {% endfor %}
+        </center>
+        </div>
+      </section>
+            <input name="tabbed" id="tabbed3" type="radio">
+            <section>
+              <h1>
+                <label for="tabbed3">S3 Bucket ({{ c3 }})</label>
+              </h1>
+              <div>
+              <center>
+              </br>
+              </br>
+              </br>
+                {% for obj in S3 %}
+              	<div class= "box_header_minty">
+              		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+              	</div>
+              	<div class= "box">
+              	<ol class="progtrckr" data-progtrckr-steps="5">
+              		<li class="progtrckr-done">Request Received</li>
+              		<li class="progtrckr-done">Data Downloaded</li>
+              		<li class="progtrckr-done">Data in Staging</li>
+                  <li class="progtrckr-done">Data in S3/Database</li>
+              		<li class="progtrckr-todo">Available</li>
+              		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+              		<a href={{obj.study_link}} align="right"></a><br/>
+              	</div>
+              	</ol>
+              	</div>
+                {% endfor %}
+              </center>
+              </div>
+            </section>
+      <input name="tabbed" id="tabbed4" type="radio">
+      <section>
+        <h1>
+          <label for="tabbed4">cBioPortal ({{c4}})</label>
+        </h1>
+        <div>
+        <center>
+        </br>
+        </br>
+        </br>
+          {% for obj in cbioportal %}
+              <div class= "box_header_mortar">
+                <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+                <a href={{obj.cbio_link}} class = "li-icon">
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                </a><br/>
+              </div>
+              <div class= "box">
+                <ol class="progtrckr" data-progtrckr-steps="5">
+                  <li class="progtrckr-done">Request Received</li>
+                  <li class="progtrckr-done">Data Downloaded</li>
+                  <li class="progtrckr-done">Data in Staging</li>
+                  <li class="progtrckr-done">Data in Database</li>
+                  <li class="progtrckr-done">Available in cBioPortal</li>
+                </ol>
+              </div>
+          {% endfor %}
+        </center>
+        </div>
+      </section>
+        <section>
+          <h1>
+            <label for="tabbed5">Cavatica ({{c5}})</label>
+          </h1>
+          <div>
+          <center>
+          </br>
+          </br>
+          </br>
+            {% for obj in cavatica %}
+              <div class= "box_header_spider">
+                <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+                {% if obj.L1 == '1' %}
+                <p class = "li-icon">
+                  <span class="glyphicon glyphicons-log-book">Contains L1 data</span>
+                </p><br/>
+                {% endif %}
+              </div>
+              <div class= "box">
+                <ol class="progtrckr" data-progtrckr-steps="5">
+                  <li class="progtrckr-done">Request Received</li>
+                  <li class="progtrckr-done">Data Downloaded</li>
+                  <li class="progtrckr-done">Data in Staging</li>
+                  <li class="progtrckr-done">Data in (S3) Cavatica</li>
+                  <li class="progtrckr-done">Available in Cavatica</li>
+                </ol>
+              </div>
+              {% endfor %}
+          </center>
+          </div>
+        </section>
+  </div>
+</center>
+
+
+{% block overwrite %}
+<!-- Overwrite the base.html jQuery load and put in head for Highcharts to work -->
+{% endblock %}
+
+<style>
+.tabbed > input{
+  display : none;
+}
+
+.tabbed > input:first-child + section > h1{
+  padding-left : 1em;
+}
+
+.tabbed > input:not(:checked) + section > div{
+  display : none;
+}
+
+.tabbed > input:checked + section > h1{
+  position : relative;
+  z-index  : 2;
+}
+
+.tabbed > section > h1{
+  float : left;
+  box-sizing  : border-box;
+  margin      : 0;
+  padding     : 0.5em 0.5em 0;
+  overflow    : hidden;
+  font-size   : 1em;
+  font-weight : normal;
+}
+
+.tabbed > section > div{
+  float  : right;
+  width  : 100%;
+  margin : 2.5em 0 0 -100%;
+  box-sizing    : border-box;
+  padding       : 0.5em 0.75em;
+  border        : 1px solid #ddd;
+  border-radius : 4px;
+  box-shadow    : 0 0 0.5em rgba(0,0,0,0.0625);
+  background    : #fff;
+  position : relative;
+  z-index  : 1;
+}
+
+.tabbed{
+  float : left;
+  width : 100%;
+}
+
+.tabbed > section > h1 > label{
+  display                 : block;
+  padding                 : 0.25em 0.75em;
+  border                  : 1px solid #ddd;
+  border-bottom           : none;
+  border-top-left-radius  : 4px;
+  border-top-right-radius : 4px;
+  box-shadow              : 0 0 0.5em rgba(0,0,0,0.0625);
+  background              : #fff;
+}
+</style>
+
+
+{% endblock %}

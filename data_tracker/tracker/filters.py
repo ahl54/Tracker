@@ -11,7 +11,7 @@ class TrackerFilter(django_filters.FilterSet):
 
     class Meta:
         model = Tracker
-        fields = ['cancer_type', 'adult_or_pediatric', 'access', 'details', 'accession']
-        exclude =("id", "time", "requester_name", "email","source","link","samples", "adult_or_pediatric", "citation", "priority", "trackerID")
+        fields = ['cancer_type', 'adult_or_pediatric', 'access', 'details', 'accession', "source"]
+        exclude =("id", "time", "requester_name", "email", "study_link", "cbiolink", "s3_link", "samples", "adult_or_pediatric", "citation", "priority", "trackerID")
         orderable = True
         attrs = {"class": "paleblue"}
