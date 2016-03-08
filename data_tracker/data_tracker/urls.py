@@ -20,4 +20,5 @@ from tracker import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tracker/', include('tracker.urls')),
-]
+    url(r'^$', RedirectView.as_view(url='/list/', permanent=True)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
