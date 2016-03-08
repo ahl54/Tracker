@@ -245,8 +245,7 @@ class TrackerGroup(models.Model):
 
 class Document(models.Model):
     idtracker_document = models.IntegerField(primary_key=True)
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
-
+    docfile = models.FileField(upload_to='downloads')
 
 class TrackerFilter(django_filters.FilterSet):
     adult_or_pediatric = ChoiceFilter(choices=AGE_CHOICES)
