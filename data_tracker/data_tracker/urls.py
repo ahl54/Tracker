@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', index, name="index"),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tracker/', include('tracker.urls')),
+<<<<<<< HEAD
     #url(r'^list/$', 'list', name='list'),
     url(r'^$', RedirectView.as_view(url='/list/', permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -32,3 +33,7 @@ urlpatterns = [
 #urlpatterns = patterns('',
 #    (r'^', include('tracker.urls')),
 #) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+=======
+    url(r'^$', RedirectView.as_view(url='/list/', permanent=True)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> dc38f0ae33da614cd7deeedc4d7bccfd5e86b7a8
