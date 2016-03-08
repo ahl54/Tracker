@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 from tracker import views
 from tracker.filters import TrackerFilter
 from tracker.models import Tracker
@@ -23,6 +25,7 @@ urlpatterns = [
 	url(r'^register/$', views.register, name = 'register'),
 	url(r'^manage/$', views.manage, name = 'manage'),
 	url(r'^loading/$', views.loading, name = 'loading'),
+	url(r'^list/$', views.list, name='list'),
 	url(r'^table/$', FilteredSingleTableView.as_view(
             model=Tracker,
             table_class=TrackerTable,

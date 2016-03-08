@@ -151,3 +151,9 @@ class RegisterForm(forms.ModelForm):
             trackeruser = TrackerUser(user = new_user)
             trackeruser.save()
         return new_user
+
+class DocumentForm(forms.Form):
+    docfile = forms.FileField(
+        label='Select a file',
+        help_text='max. 42 megabytes'
+    )

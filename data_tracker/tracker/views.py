@@ -1,4 +1,4 @@
-# model imports
+# model view imports
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext, context, loader
 from django.views.generic import TemplateView
@@ -29,6 +29,10 @@ from django.conf import settings
 # session
 from django.contrib.sessions.models import Session
 from datetime import datetime
+# file uploading
+from django.core.urlresolvers import reverse
+from tracker.models import Document
+from tracker.forms import DocumentForm
 
 # Views for each page are created below with functions implemented
 
@@ -434,3 +438,31 @@ def base_config(request):
     else:
         base='base.html'
     return base
+
+# Handles file uploads
+
+def list(request):
+    # Handle file upload
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('tracker.views.list'))
+    else:
+        form = DocumentForm() # A empty, unbound form
+
+    # Load documents for the list page
+    documents = Document.objects.all()
+
+    # Gets the base configuration
+    base = base_config(request)
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'list.html',
+        {'documents': documents, 'form': form, 'base': base},
+        context_instance=RequestContext(request)
+    )
