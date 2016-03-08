@@ -3,33 +3,23 @@
 
 {% block content %}
 {% block extrahead %}
-    <!-- Load in jQuery and HighCharts -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
     <!-- Load in style sheets -->
     <link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
     <link href="{% static 'tracker/css/tabbed.css' %}" rel="stylesheet">
 {% endblock %}
 
-<center>
-</center>
 	<center>
     <div class="tabbed">
-        </section>
         <input name="tabbed" id="tabbed0" type="radio" checked>
         <section>
           <h1>
-            <label for="tabbed0">Requests ({{ c0 }})</label>
+            <label for="tabbed0">Requests {{ c0 }}</label>
           </h1>
-          <div>
-          <center>
-          </br>
-          </br>
-          </br>
+          <div></br>
             {% for obj in requests %}
-            	<div class= "box_header_mortar">
+            <div class= "box_header_mortar">
             		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a><br/>
-            	</div>
+            </div>
             	<div class= "box">
             	<ol class="progtrckr" data-progtrckr-steps="5">
             		<li class="progtrckr-done">Request Received</li>
@@ -40,19 +30,13 @@
             	</ol>
             	</div>
             {% endfor %}
-          </center>
-          </div>
         </section>
-      <input name="tabbed" id="tabbed1" type="radio">
-      <section>
+        <input name="tabbed" id="tabbed1" type="radio">
+        <section>
         <h1>
-          <label for="tabbed1">Raw ({{c1}})</label>
+          <label for="tabbed1">Downloaded {{c1}}</label>
         </h1>
-        <div>
-        <center>
-        </br>
-        </br>
-        </br>
+        <div></br>
           {% for obj in raw %}
             <div class= "box_header_halves">
             	<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
@@ -67,19 +51,13 @@
             </ol>
             </div>
             {% endfor %}
-        </center>
-      </div>
       </section>
       <input name="tabbed" id="tabbed2" type="radio">
       <section>
         <h1>
-          <label for="tabbed2">Staging ({{c2}})</label>
+          <label for="tabbed2">Staging {{c2}}</label>
         </h1>
-        <div>
-        <center>
-        </br>
-        </br>
-        </br>
+        <div></br>
           {% for obj in staging %}
         	<div class= "box_header_minty">
         		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
@@ -95,21 +73,14 @@
         		<a href={{obj.study_link}} align="right"></a><br/>
         	</div>
         	</ol>
-        	</div>
           {% endfor %}
-        </center>
-        </div>
       </section>
             <input name="tabbed" id="tabbed3" type="radio">
             <section>
               <h1>
-                <label for="tabbed3">S3 Bucket ({{ c3 }})</label>
+                <label for="tabbed3">S3 Bucket {{ c3 }}</label>
               </h1>
-              <div>
-              <center>
-              </br>
-              </br>
-              </br>
+              <div></br>
                 {% for obj in S3 %}
               	<div class= "box_header_minty">
               		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
@@ -125,21 +96,14 @@
               		<a href={{obj.study_link}} align="right"></a><br/>
               	</div>
               	</ol>
-              	</div>
                 {% endfor %}
-              </center>
-              </div>
             </section>
       <input name="tabbed" id="tabbed4" type="radio">
       <section>
         <h1>
-          <label for="tabbed4">cBioPortal ({{c4}})</label>
+          <label for="tabbed4">cBioPortal {{c4}}</label>
         </h1>
-        <div>
-        <center>
-        </br>
-        </br>
-        </br>
+        <div></br>
           {% for obj in cbioportal %}
               <div class= "box_header_mortar">
                 <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
@@ -157,18 +121,13 @@
                 </ol>
               </div>
           {% endfor %}
-        </center>
-        </div>
       </section>
+      <input name="tabbed" id="tabbed5" type="radio">
         <section>
           <h1>
-            <label for="tabbed5">Cavatica ({{c5}})</label>
+            <label for="tabbed5">Cavatica {{c5}}</label>
           </h1>
-          <div>
-          <center>
-          </br>
-          </br>
-          </br>
+          <div></br>
             {% for obj in cavatica %}
               <div class= "box_header_spider">
                 <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
@@ -188,18 +147,19 @@
                 </ol>
               </div>
               {% endfor %}
-          </center>
-          </div>
         </section>
   </div>
 </center>
-
 
 {% block overwrite %}
 <!-- Overwrite the base.html jQuery load and put in head for Highcharts to work -->
 {% endblock %}
 
 <style>
+.tabbed > div {
+  margin : 1000px;
+}
+
 .tabbed > input{
   display : none;
 }

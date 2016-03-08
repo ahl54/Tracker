@@ -237,11 +237,15 @@ class TrackerGroup(models.Model):
 
 
 # class SubTracker(Tracker)
-### HIGH PRIORITY
-### TODO Create a data type (WGS, WES, RNA, Transcriptome) based "subtracker" model here
+### Depreciated
+### Create a data type (WGS, WES, RNA, Transcriptome) based "subtracker" model here
 ### SubTracker is an subclass of Tracker that contains
 ### we need to share project sub data types (make a tabbed tracker view for projects, data types)
 ### Consider using generated sub filter tabs to display relevant information
+
+class Document(models.Model):
+    idtracker_document = models.IntegerField(primary_key=True)
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
 
 class TrackerFilter(django_filters.FilterSet):
