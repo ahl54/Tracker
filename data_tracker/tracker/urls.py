@@ -25,7 +25,8 @@ urlpatterns = [
 	url(r'^register/$', views.register, name = 'register'),
 	url(r'^manage/$', views.manage, name = 'manage'),
 	url(r'^loading/$', views.loading, name = 'loading'),
-	url(r'^list/$', views.list, name='list'),
+	url(r'^rawlist/$', views.rawlist, name='rawlist'),
+	url(r'^staginglist/$', views.staginglist, name='staginglist'),
 	url(r'^table/$', FilteredSingleTableView.as_view(
             model=Tracker,
             table_class=TrackerTable,

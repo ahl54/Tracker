@@ -153,7 +153,11 @@ class RegisterForm(forms.ModelForm):
         return new_user
 
 class DocumentForm(forms.Form):
-    docfile = forms.FileField(
-        label='Select a file',
+    rawfile = forms.FileField(
+        label='raw',
+        help_text='max. 42 megabytes'
+    )
+    stagingfile = forms.FileField(
+        label='staging',
         help_text='max. 42 megabytes'
     )
