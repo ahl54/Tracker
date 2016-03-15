@@ -69,11 +69,6 @@ secret_key.txt
 dataRequests.db
 dataRequests.sqlite3
 manage_001.py
-
-# OS specific files and data
 *.csv
-*.log
-*.txt
 *.pyc
 *.DS_Store
-nohup.out
