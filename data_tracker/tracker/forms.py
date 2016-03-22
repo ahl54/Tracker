@@ -6,8 +6,33 @@ class TrackerForm(forms.ModelForm):
 
     class Meta:
         model = Tracker
-        fields = ('requester_name', 'email', 'accession', 'source', 'study_link', 'samples', 'cancer_type', 'adult_or_pediatric', 'PMID', 'citation', 'details', 'confirmation', 'subscription')
+        fields = ('requester_name', 'email', 'accession', 'source', 'cancer_type', 'specimen_type', 'adult_or_pediatric', 'samples', 'study_link', 'PMID', 'citation', 'details', 'group', 'level', 'confirmation', 'subscription')
         widgets = {'myfield': forms.TextInput(attrs={'div': 'field-style-vert'})}
+        help_texts = {
+            'requester_name': 'Jane Doe',
+            'email': 'janedoe@company.com',
+            'accession':'EGA-000123456',
+            'source': 'TCGA',
+            'cancer_type': 'Breast Adenocarinoma',
+            'specimen_type': 'patient, cell line, xenograft',
+            'study_link': 'http://www.ncbi.nlm.nih.gov',
+            'PMID': '000001',
+            'citation': 'Doe et. al, Journal 2012',
+            'details': 'RNA-seq, expression median z-Score',
+        }
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('auto_id', '%s')
+        kwargs.setdefault('label_suffix', '')
+        super(TrackerForm, self).__init__(*args, **kwargs)
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            if field:
+                field.widget.attrs.update({
+                    'placeholder': field.help_text
+                })
+
 
 class LoginForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput,label="Email")

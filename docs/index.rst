@@ -16,19 +16,10 @@ Contents:
    intro </modules/intro.rst>
    tutorial </modules/tutorial.rst>
    models </modules/models.rst>
-   tracker </modules/models/tracker.rst>
-   user </modules/models/user.rst>
-   group </modules/models/group.rst>
    naming </modules/standards/naming.rst>
    trackerID </modules/standards/trackerID.rst>
    structure </modules/standards/structure.rst>
-   cavatica </modules/interactions/cavatica.rst>
-   sbg </modules/interactions/sbg.rst>
-   cbioportal </modules/interactions/cbioportal.rst>
-   aws </modules/interactions/architecture/aws.rst>
    triggers </modules/interactions/architecture/triggers.rst>
-   todo </modules/future/todo.rst>
-   portal </modules/admin/portal.rst>
 
 Indices and tables
 ==================
