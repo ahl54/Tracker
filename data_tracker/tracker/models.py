@@ -258,15 +258,11 @@ class TrackerGroup(models.Model):
 
 class Document(models.Model):
     idtracker_document = models.IntegerField(primary_key=True)
-<<<<<<< HEAD
-    docfile = models.FileField(upload_to='downloads')
-=======
     docfile = models.FileField(upload_to='downloads/%Y_%m_%d')
     filetype = models.CharField(max_length=25)
 
 class S3Direct(models.Model):
     docfile = S3DirectField(dest='files')
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
 class TrackerFilter(django_filters.FilterSet):
     adult_or_pediatric = ChoiceFilter(choices=AGE_CHOICES)
