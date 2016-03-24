@@ -1,0 +1,15 @@
+{% extends base %}
+
+{% block content %}
+  <head>
+    <meta charset="utf-8">
+    <title>s3direct</title>
+    {{ form.media }}
+  </head>
+
+  <body>
+      <form action="" method="post">{% csrf_token %}
+          {{ form.as_p }} Choose a file to upload to raw S3 bucket
+      </form>
+  </body>
+{% endblock %}

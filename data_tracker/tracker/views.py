@@ -33,6 +33,9 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from tracker.models import Document
 from tracker.forms import DocumentForm
+# s3 direct uploading
+from django.views.generic import FormView
+from .forms import S3DirectUploadForm
 
 # Views for each page are created below with functions implemented
 
@@ -108,6 +111,25 @@ def base_internal(request):
 ## Low priority view a user's specific requests
 ## Med priority be able to create groups, add and share functions implemented here
 ## Low Low priority sharing via social media
+
+class S3UploaderView(FormView):
+    template_name = 's3uploader.html'
+    form_class = S3DirectUploadForm
+
+    def get_context_data(self, **kwargs):
+        context = super(S3UploaderView, self).get_context_data(**kwargs)
+        try:
+            base = base_config(self.request)
+        except:
+            print(base_config(self.request))
+        context['base'] = base
+        #context['clear'] = self.clear # TODO filtering function needs reset
+        return context
+
+    # def s3uploader(request):
+    #     base = base_config(request)
+    #     results = {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
+    #     return render(request, 's3uploader.html', results)
 
 #@login_required(redirect_field_name=LOGIN_URL)
 def manage(request):

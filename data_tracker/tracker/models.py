@@ -15,7 +15,7 @@ import uuid
 from django.utils.encoding import python_2_unicode_compatible
 import django_filters
 from django.contrib.auth.models import Group, User, AbstractBaseUser, BaseUserManager
-
+from s3direct.fields import S3DirectField
 
 # Create your models here.
 
@@ -260,6 +260,9 @@ class Document(models.Model):
     idtracker_document = models.IntegerField(primary_key=True)
     docfile = models.FileField(upload_to='downloads/%Y_%m_%d')
     filetype = models.CharField(max_length=25)
+
+class S3Direct(models.Model):
+    docfile = S3DirectField(dest='files')
 
 class TrackerFilter(django_filters.FilterSet):
     adult_or_pediatric = ChoiceFilter(choices=AGE_CHOICES)

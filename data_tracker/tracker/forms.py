@@ -1,6 +1,8 @@
 from django import forms
 from .models import Tracker, TrackerUser, User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from s3direct.widgets import S3DirectWidget
+
 
 class TrackerForm(forms.ModelForm):
 
@@ -186,3 +188,17 @@ class DocumentForm(forms.Form):
         label='staging',
         help_text='max. 42 megabytes'
     )
+
+class S3DirectUploadForm(forms.Form):
+    docfile = forms.URLField(widget=S3DirectWidget(dest='files',
+    html=(  '<div class="s3direct" data-policy-url="{policy_url}">'
+            '  <a class="file-link" target="_blank" href="{file_url}">{file_name}</a>'
+            '  <a class="file-remove" href="#remove">Remove</a>'
+            '  <input class="file-url" type="hidden" value="{file_url}" id="{element_id}" name="{name}" />'
+            '  <input class="file-dest" type="hidden" value="{dest}">'
+            '  <input class="file-input" type="file" />'
+            '  <div class="progress progress-striped active">'
+            '    <div class="bar"></div>'
+            '  </div>'
+            '</div>'
+        )))

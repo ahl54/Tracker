@@ -6,7 +6,7 @@ from tracker import views
 from tracker.filters import TrackerFilter
 from tracker.models import Tracker
 from tracker.tables import TrackerTable
-from tracker.views import FilteredSingleTableView #, PlotView
+from tracker.views import FilteredSingleTableView, S3UploaderView
 
 urlpatterns = [
 	url(r'^$', views.index, name = 'home'),
@@ -27,6 +27,7 @@ urlpatterns = [
 	url(r'^loading/$', views.loading, name = 'loading'),
 	url(r'^rawlist/$', views.rawlist, name='rawlist'),
 	url(r'^staginglist/$', views.staginglist, name='staginglist'),
+	url(r'^s3uploader/$', S3UploaderView.as_view(), name='s3uploader_view'),
 	url(r'^table/$', FilteredSingleTableView.as_view(
             model=Tracker,
             table_class=TrackerTable,

@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', index, name="index"),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tracker/', include('tracker.urls')),
+    url(r'^s3direct/', include('s3direct.urls')),
     url(r'^$', RedirectView.as_view(url='/rawlist/', permanent=True)),
     url(r'^$', RedirectView.as_view(url='/staginglist/', permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
