@@ -1,0 +1,36 @@
+{% extends base %}
+{% load staticfiles %}
+
+{% block content %}
+{% block extrahead %}
+  <!-- Load in style sheets -->
+  <link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+<center>
+<!-- staginglist of uploaded documents -->
+   {% if documents %}
+       <ul>
+       {% for document in documents %}
+           <li><a href="{{ document.stagingfile.url }}">{{ document.stagingfile.name }}</a></li>
+       {% endfor %}
+       </ul>
+   {% else %}
+       <p>No documents.</p>
+   {% endif %}
+
+       <!-- Upload form. Note enctype attribute! -->
+       <form action="{% url 'staginglist' %}" method="post" enctype="multipart/form-data">
+           {% csrf_token %}
+           <p>{{ form.non_field_errors }}</p>
+           <p>{{ form.stagingfile.label_tag }} {{ form.stagingfile.help_text }}</p>
+           <p>
+               {{ form.stagingfile.errors }}
+               {{ form.stagingfile }}
+           </p>
+           <p><input type="submit" value="Upload" /></p>
+       </form>
+
+</center>
+{% endblock %}

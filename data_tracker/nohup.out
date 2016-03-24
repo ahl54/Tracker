@@ -1,0 +1,67 @@
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+Error: That port is already in use.
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+Unhandled exception in thread started by <function wrapper at 0x20417d0>
+Performing system checks...
+
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/django/utils/autoreload.py", line 226, in wrapper
+    fn(*args, **kwargs)
+  File "/usr/lib/python2.7/site-packages/django/core/management/commands/runserver.py", line 116, in inner_run
+    self.check(display_num_errors=True)
+  File "/usr/lib/python2.7/site-packages/django/core/management/base.py", line 426, in check
+    include_deployment_checks=include_deployment_checks,
+  File "/usr/lib/python2.7/site-packages/django/core/checks/registry.py", line 75, in run_checks
+    new_errors = check(app_configs=app_configs)
+  File "/usr/lib/python2.7/site-packages/django/core/checks/urls.py", line 10, in check_url_config
+    return check_resolver(resolver)
+  File "/usr/lib/python2.7/site-packages/django/core/checks/urls.py", line 19, in check_resolver
+    for pattern in resolver.url_patterns:
+  File "/usr/lib/python2.7/site-packages/django/utils/functional.py", line 33, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/lib/python2.7/site-packages/django/core/urlresolvers.py", line 417, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/usr/lib/python2.7/site-packages/django/utils/functional.py", line 33, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/lib/python2.7/site-packages/django/core/urlresolvers.py", line 410, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/lua1/Tracker/data_tracker/data_tracker/urls.py", line 22, in <module>
+    url(r'^tracker/', include('tracker.urls')),
+  File "/usr/lib/python2.7/site-packages/django/conf/urls/__init__.py", line 52, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/lib64/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/lua1/Tracker/data_tracker/tracker/urls.py", line 26, in <module>
+    url(r'^list/$', views.list, name='list'),
+AttributeError: 'module' object has no attribute 'list'
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+/usr/lib/python2.7/site-packages/django_filters/filterset.py:103: RemovedInDjango110Warning: 'get_field_by_name is an unofficial API that has been deprecated. You may be able to replace it with 'get_field()'
+  rel, model, direct, m2m = opts.get_field_by_name(parts[-1])
+
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+Error: That port is already in use.

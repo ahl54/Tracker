@@ -33,6 +33,12 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from tracker.models import Document
 from tracker.forms import DocumentForm
+<<<<<<< HEAD
+=======
+# s3 direct uploading
+from django.views.generic import FormView
+from .forms import S3DirectUploadForm
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
 # Views for each page are created below with functions implemented
 
@@ -108,6 +114,25 @@ def base_internal(request):
 ## Low priority view a user's specific requests
 ## Med priority be able to create groups, add and share functions implemented here
 ## Low Low priority sharing via social media
+
+class S3UploaderView(FormView):
+    template_name = 's3uploader.html'
+    form_class = S3DirectUploadForm
+
+    def get_context_data(self, **kwargs):
+        context = super(S3UploaderView, self).get_context_data(**kwargs)
+        try:
+            base = base_config(self.request)
+        except:
+            print(base_config(self.request))
+        context['base'] = base
+        #context['clear'] = self.clear # TODO filtering function needs reset
+        return context
+
+    # def s3uploader(request):
+    #     base = base_config(request)
+    #     results = {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
+    #     return render(request, 's3uploader.html', results)
 
 #@login_required(redirect_field_name=LOGIN_URL)
 def manage(request):
@@ -441,7 +466,11 @@ def base_config(request):
 
 # Handles file uploads
 
+<<<<<<< HEAD
 def list(request):
+=======
+def rawlist(request):
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -450,19 +479,58 @@ def list(request):
             newdoc.save()
 
             # Redirect to the document list after POST
+<<<<<<< HEAD
             return HttpResponseRedirect(reverse('tracker.views.list'))
+=======
+            return HttpResponseRedirect(reverse('tracker.views.rawlist'))
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
     else:
         form = DocumentForm() # A empty, unbound form
 
     # Load documents for the list page
+<<<<<<< HEAD
     documents = Document.objects.all()
+=======
+    rawdocuments = Document.objects.filter(filetype='raw')
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
     # Gets the base configuration
     base = base_config(request)
 
     # Render list page with the documents and the form
     return render_to_response(
+<<<<<<< HEAD
         'list.html',
         {'documents': documents, 'form': form, 'base': base},
+=======
+        'rawlist.html',
+        {'rawdocuments': rawdocuments, 'form': form, 'base': base},
+        context_instance=RequestContext(request)
+    )
+
+def staginglist(request):
+    # Handle file upload
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('tracker.views.staginglist'))
+    else:
+        form = DocumentForm() # A empty, unbound form
+
+    # Load documents for the list page
+    stagingdocuments = Document.objects.filter(filetype='staging')
+
+    # Gets the base configuration
+    base = base_config(request)
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'staginglist.html',
+        {'stagingdocuments': stagingdocuments, 'form': form, 'base': base},
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
         context_instance=RequestContext(request)
     )

@@ -1,13 +1,40 @@
 from django import forms
 from .models import Tracker, TrackerUser, User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from s3direct.widgets import S3DirectWidget
+
 
 class TrackerForm(forms.ModelForm):
 
     class Meta:
         model = Tracker
-        fields = ('requester_name', 'email', 'accession', 'source', 'study_link', 'samples', 'cancer_type', 'adult_or_pediatric', 'PMID', 'citation', 'details', 'confirmation', 'subscription')
+        fields = ('requester_name', 'email', 'accession', 'source', 'cancer_type', 'specimen_type', 'adult_or_pediatric', 'samples', 'study_link', 'PMID', 'citation', 'details', 'group', 'level', 'confirmation', 'subscription')
         widgets = {'myfield': forms.TextInput(attrs={'div': 'field-style-vert'})}
+        help_texts = {
+            'requester_name': 'Jane Doe',
+            'email': 'janedoe@company.com',
+            'accession':'EGA-000123456',
+            'source': 'TCGA',
+            'cancer_type': 'Breast Adenocarinoma',
+            'specimen_type': 'patient, cell line, xenograft',
+            'study_link': 'http://www.ncbi.nlm.nih.gov',
+            'PMID': '000001',
+            'citation': 'Doe et. al, Journal 2012',
+            'details': 'RNA-seq, expression median z-Score',
+        }
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('auto_id', '%s')
+        kwargs.setdefault('label_suffix', '')
+        super(TrackerForm, self).__init__(*args, **kwargs)
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            if field:
+                field.widget.attrs.update({
+                    'placeholder': field.help_text
+                })
+
 
 class LoginForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput,label="Email")
@@ -153,7 +180,32 @@ class RegisterForm(forms.ModelForm):
         return new_user
 
 class DocumentForm(forms.Form):
+<<<<<<< HEAD
     docfile = forms.FileField(
         label='Select a file',
         help_text='max. 42 megabytes'
     )
+=======
+    rawfile = forms.FileField(
+        label='raw',
+        help_text='max. 42 megabytes'
+    )
+    stagingfile = forms.FileField(
+        label='staging',
+        help_text='max. 42 megabytes'
+    )
+
+class S3DirectUploadForm(forms.Form):
+    docfile = forms.URLField(widget=S3DirectWidget(dest='files',
+    html=(  '<div class="s3direct" data-policy-url="{policy_url}">'
+            '  <a class="file-link" target="_blank" href="{file_url}">{file_name}</a>'
+            '  <a class="file-remove" href="#remove">Remove</a>'
+            '  <input class="file-url" type="hidden" value="{file_url}" id="{element_id}" name="{name}" />'
+            '  <input class="file-dest" type="hidden" value="{dest}">'
+            '  <input class="file-input" type="file" />'
+            '  <div class="progress progress-striped active">'
+            '    <div class="bar"></div>'
+            '  </div>'
+            '</div>'
+        )))
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725

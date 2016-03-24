@@ -1,0 +1,113 @@
+Abbreviations Guide
+*******************
+
+### Cancer Abbreviations
+Cancer Abbreviation | Cancer Name
+:---: | :---
+ACC |	Adrenocortical Carcinoma
+ACC |	Adenoid Cystic Carcinoma
+AMKL |	Acute Megkaryoblastic Leukemia
+BLCA	| Bladder Urothelial Carcinoma
+BLIT |	Benign Liver Tumor
+BONE |	Bone Cancer
+BRAIN |	Brain Cancer
+BRCA |	Breast invasive Carcinoma
+BTCA |	Bilary Tract Cancer
+CESC |	Cervical squamous cell Carcinoma and endocervical Adenocarcinoma
+CHOL |	Cholangiocarcinoma
+CLL |	Chronic Lymphocytic Leukemia
+CMD |	Chronic Myeloid Disorder
+CNTL |	Controls
+COAD |	Colon Adenocarcinoma
+CP |	Craniopharynglioma
+CRC |	Colorectal Adenocarcinoma
+CTRL |	Control
+DIPG |	Diffuse Intrinsic Pontine Glioma
+DLBC |	Lymphoid Neoplasm Diffuse Large B-cell Lymphoma
+EPEN |	Ependymoma
+ESAD |	Esophageal Adenocarcinoma
+ESCA |	Esophageal Carcinoma
+EWING |	Ewing Sarcoma
+GAST |	Gastric Carcinoma
+GBM |	Glioblastoma multiforme
+HGA |	High Grade Astrocytoma
+HGG |	High Grade Glioma
+HNSC |	Head and Neck squamous cell Carcinoma
+KICH |	Kidney Chromophobe
+KIRC |	Kidney Renal Clear Cell Carcinoma
+KIRP |	Kidney Renal Papillary Cell Carcinoma
+LAML |	Acute Myeloid Leukemia
+LGA |	Low Grade Astrocytoma
+LGG |	Brain Lower Grade Glioma
+LGG |	Low Grade Glioma
+LIHC |	Liver Hepatocellular Carcinoma
+LUAD |	Lung Adenocarcinoma
+LUCA |	Lung Cancer
+LUSC |	Lung Squamous Cell Carcinoma
+MB |	Medulloblastoma
+MEL |	Melanoma
+MESO |	Mesothelioma
+ML |	Malignant Lymphoma
+MM |	Multiple Myeloma
+MPNT |	Malignant Peripheral Nerve Sheath Tumor
+NB |	Neuroblastoma
+NPC |	Nasopharyngeal Carcinoma
+ORCA |	Oral Cancer
+OS |	Osteosarcoma
+OV |	Ovarian Serous Cyst Adenocarcinoma
+OVCA |	Ovarian Cancer
+PAAD |	Pancreatic Adenocarcinoma
+PACA | Pancreatic Carcinoma
+PCPG |	Pheochromocytoma and Paraganglioma
+PRAD |	Prostate Adenocarcinoma
+PRC |	Prostate Cancer
+PTC |	Papillary Thyroid Carcinoma
+RB |	Retinoblastoma
+READ |	Rectum Adenocarcinoma
+RENAL |	Renal Carcinoma
+RMS |	Rhabdomyosarcoma
+SARC |	Sarcoma
+SCCO |	Small Cell Carcinoma of the Ovary
+SCLC |	Small Cell Lung Cancer
+SKAD |	Skin Adenocarinoma
+SKCM |	Skin Cutaneous Melanoma
+STAD |	Stomach Adenocarcinoma
+TGCT |	Testicular Germ Cell Tumors
+THCA |	Thyroid Carcinoma
+THYM |	Thymoma
+UCEC |	Uterine Corpus Endometrial Carcinoma
+UCS |	Uterine Carcinosarcoma
+UVM |	Uveal Melanoma
+
+
+### Sample Type Abbreviations
+
+Sample Abbreviation | Sample Type
+:---: | :---
+XG |	Xenografts
+CL |	Cell Lines
+PA |	Patient
+
+### Technology Abbreviations
+
+Technology Abbreviation | Technology
+:---: | :---
+WES |	Whole Exome Sequencing
+WGS |	Whole Genome Sequencing
+WTS |	RNA Sequencing
+TES |	Targeted Exome Sequencing
+MEXP |	Microarray Expression
+SNPA |	SNP Array
+RPPA |	Reverse Phase Protein Array
+MSPEC |	Mass spectrometry
+ACGH |	Array CGH
+METH | 	Methylation data
+
+### Vendor Abbreviations
+
+Vender Abbreviation | Vender
+:---: | :---
+ILLU |	Illumina
+AFFY |	Affymetrix
+AGIL |	Agilent
+COMG |	Complete Genomics

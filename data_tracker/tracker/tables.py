@@ -10,13 +10,14 @@ class GlyphColumn(tables.Column):
     def render(self, value):
         if value != '-':
             return mark_safe('<center><a href=%s><span class="glyphicon glyphicon-share-alt"></span></a></center>'
-                          %escape(value)
+                          %escape(value.lower())
                         )
         return mark_safe('<center>%s</center>'
-                      %escape(value)
+                      %escape(value.lower())
                     )
 
 class TrackerTable(tables.Table):
+    dataset_name = tables.Column()
     description = tables.Column()
     cancer_type = tables.Column()
     study_link = GlyphColumn()
@@ -33,6 +34,6 @@ class TrackerTable(tables.Table):
 
     class Meta:
         model = Tracker
-        exclude =("uuid", "id", "time", "requester_name", "email", "accession", "description", "details", "trackerID", "L1", "citations", "priority", "confirmation", "subscription", "summary", "s3_link")
+        exclude =("dataset_name", "uuid", "id", "time", "requester_name", "email", "accession", "details", "trackerID", "PMID", "citation", "priority", "confirmation", "subscription", "summary", "s3_link", "endpt", "level", "technology", "vendor")
         orderable = True
         attrs = {"class": "paleblue"}

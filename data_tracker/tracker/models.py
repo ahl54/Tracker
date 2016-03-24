@@ -15,11 +15,11 @@ import uuid
 from django.utils.encoding import python_2_unicode_compatible
 import django_filters
 from django.contrib.auth.models import Group, User, AbstractBaseUser, BaseUserManager
-
+from s3direct.fields import S3DirectField
 
 # Create your models here.
 
-#CHOICE FIELD DEFINITIONS
+## CHOICE FIELD DEFINITIONS
 
 AGE_CHOICES = (
     ('Unknown', 'Unknown'),
@@ -62,11 +62,23 @@ SUMMARY_CHOICES = (
 
 # Admin defined groups here
 GROUP_CHOICES = (
-    ('0', 'NONE'),
+    ('0', 'PRIVATE'),
     ('1', 'CBTTC'),
     ('2', 'SU2C'),
     ('3', 'PNOC'),
     ('9', 'PUBLIC'),
+)
+
+LEVEL_CHOICES = (
+    ('0', 'L1 Data: FASTQ'),
+    ('1', 'L2 Data: VCF, BAM'),
+    ('2', 'L3 Data: Processed data'),
+)
+
+ENDPT_CHOICES = (
+    ('0', 'Data goes to both Cavatica and cBioPortal'),
+    ('1', 'Data goes to cBioPortal only'),
+    ('2', 'Data goes to Cavatica only'),
 )
 
 # Tracker model
@@ -89,13 +101,14 @@ class Tracker(models.Model):
     adult_or_pediatric = models.CharField(max_length=50, choices=AGE_CHOICES, default='Unknown')
     PMID = models.IntegerField(null=True, blank=True) #, help_text='121326')
     citation = models.CharField(max_length=245, blank=True) #, help_text='John, et. al. Nature 2016')
-    specimen_type = models.CharField(max_length=245, blank=True) #, help_text='tissue, cell line, or xenograft')
+    specimen_type = models.CharField(max_length=245, blank=True, help_text='tissue, cell line, or xenograft')
     details = models.CharField(max_length=245, blank=True) #, help_text='WTS, WGS, WES, RNA-Seq')
     access = models.CharField(max_length=10, choices=ACCESS_CHOICES, default='Unknown')
     priority = models.IntegerField(default=0, blank=True) #, help_text='0-none, 1-low, 2-medium, 3-high')
     trackerID = models.CharField(max_length=11, choices=TRACKERID_CHOICES, default='0')
-    L1 = models.IntegerField(default=0)
-    group = models.CharField(max_length=245, choices=GROUP_CHOICES, default='0', help_text='PNOC, CBTTC, SU2C, PUBLIC')
+    endpt = models.CharField(max_length=254, choices=ENDPT_CHOICES, default='0')
+    group = models.CharField(max_length=245, choices=GROUP_CHOICES, default='9', help_text='PNOC, CBTTC, SU2C, PUBLIC')
+    level = models.CharField(max_length=230, choices=LEVEL_CHOICES, default='0')
     confirmation = models.CharField(max_length=100, choices=CONFIRMATION_CHOICES, default='0')
     subscription = models.CharField(max_length=100, choices=SUBSCRIPTION_CHOICES, default='0')
     summary = models.CharField(max_length=100, choices=SUMMARY_CHOICES, default='0')
@@ -245,7 +258,15 @@ class TrackerGroup(models.Model):
 
 class Document(models.Model):
     idtracker_document = models.IntegerField(primary_key=True)
+<<<<<<< HEAD
     docfile = models.FileField(upload_to='downloads')
+=======
+    docfile = models.FileField(upload_to='downloads/%Y_%m_%d')
+    filetype = models.CharField(max_length=25)
+
+class S3Direct(models.Model):
+    docfile = S3DirectField(dest='files')
+>>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
 class TrackerFilter(django_filters.FilterSet):
     adult_or_pediatric = ChoiceFilter(choices=AGE_CHOICES)
@@ -258,3 +279,5 @@ class TrackerFilter(django_filters.FilterSet):
         fields = ['dataset_name', 'cancer_type', 'adult_or_pediatric', 'group', 'access', 'details', 'accession']
         orderable = True
         attrs = {"class": "paleblue"}
+
+## TODO Create a class for auto generating our format from the request and annotating meta files and generating case lists
