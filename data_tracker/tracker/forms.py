@@ -1,11 +1,14 @@
 from django import forms
-from .models import Tracker, TrackerUser, User
+from .models import Tracker, TrackerUser
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from s3direct.widgets import S3DirectWidget
 
 
 class TrackerForm(forms.ModelForm):
-
+    """
+        The Request form for entering metadata annotations for each Tracker object submission
+    """
     class Meta:
         model = Tracker
         fields = ('requester_name', 'email', 'accession', 'source', 'cancer_type', 'specimen_type', 'adult_or_pediatric', 'samples', 'study_link', 'PMID', 'citation', 'details', 'group', 'level', 'confirmation', 'subscription')
@@ -37,89 +40,37 @@ class TrackerForm(forms.ModelForm):
 
 
 class LoginForm(forms.ModelForm):
-    email = forms.EmailField(widget=forms.TextInput,label="Email")
+    """
+    A form that takes the given email and password to check against our auth_users database for existing entries
+    """
+    #email = forms.EmailField(widget=forms.TextInput,label="Email")
     password = forms.CharField(widget=forms.PasswordInput,label="Password")
-    username = forms.EmailField(widget=forms.TextInput,label="Username")
+    username = forms.CharField(widget=forms.TextInput,label="Username")
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
-        del self.fields['username']
+        #del self.fields['username']
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password',)
+        fields = ('username', 'password',)
         widgets = {'myfield': forms.TextInput(attrs={'div': 'field-style-vert'})}
         widgets = {'myfield': forms.PasswordInput(attrs={'div': 'field-style-vert'})}
-"""
-class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(required=True)
 
-    class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2")
-
-    def save(self, commit=True):
-        user = super(UserCreateForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
-"""
 class TrackerUserCreationForm(UserCreationForm):
     """
-    A form that creates a user, with no privileges, from the given email and
+    A form that creates a user, with no permissions, from the given email, username, and
     password.
     """
+    email = forms.EmailField(widget=forms.TextInput,label="Email")
+    username = forms.CharField(widget=forms.TextInput,label="Username")
 
     def __init__(self, *args, **kargs):
         super(TrackerUserCreationForm, self).__init__(*args, **kargs)
-        del self.fields['username']
+        #del self.fields['username']
 
     class Meta:
         model = TrackerUser
-        fields = ()
-    """
-    username = forms.EmailField(widget=forms.TextInput,label="Username")
-    email = forms.EmailField(widget=forms.TextInput,label="Email")
-    password1 = forms.CharField(widget=forms.PasswordInput,label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput,label="Password (again)")
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-        widgets = {'myfield': forms.PasswordInput(attrs={'div': 'field-style-vert'})}
-
-    def __init__(self, *args, **kwargs):
-        super(TrackerUserCreationForm, self).__init__(*args, **kwargs)
-        #username_temp = kwargs['email']
-        del self.fields['username']
-
-    def clean(self):
-        cleaned_data = super(TrackerUserCreationForm, self).clean()
-        # Verifies that the user doesn't already exist
-        try:
-            if 'email' in self.cleaned_data:
-                u = User.objects.get(email=email)
-                email = u.TrackerUser.email
-                if self.cleaned_data['email'] == email:
-                    raise forms.ValidationError("This email address is already registered.")
-        except:
-            print(self.cleaned_data['email'])
-        else:
-            # Verifies that the values entered into the password fields match
-            if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
-                if self.cleaned_data['password1'] != self.cleaned_data['password2']:
-                    raise forms.ValidationError("Passwords don't match. Please enter both fields again.")
-        return self.cleaned_data
-
-    def save(self, commit=True):
-        new_user = super(TrackerUserCreationForm, self).save(commit=False)
-        new_user.set_password(self.cleaned_data['password1'])
-        if commit:
-            new_user.save()
-            trackeruser = TrackerUser(user = new_user)
-            trackeruser.save()
-        return new_user
-    """
+        fields = ('email', 'username')
 
 class TrackerUserChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
@@ -129,7 +80,7 @@ class TrackerUserChangeForm(UserChangeForm):
 
     def __init__(self, *args, **kargs):
         super(TrackerUserChangeForm, self).__init__(*args, **kargs)
-        del self.fields['email']
+        #del self.fields['email']
 
     class Meta:
         model = TrackerUser
@@ -137,6 +88,9 @@ class TrackerUserChangeForm(UserChangeForm):
 
 
 class RegisterForm(forms.ModelForm):
+    """ A depreciated registration form used for entering name, email, and passwords to the database.
+        Please use TrackerUserCreationForm instead
+    """
     name = forms.CharField(widget=forms.TextInput,label="Name")
     email = forms.EmailField(widget=forms.TextInput,label="Email")
     password1 = forms.CharField(widget=forms.PasswordInput,label="Password")
@@ -180,12 +134,6 @@ class RegisterForm(forms.ModelForm):
         return new_user
 
 class DocumentForm(forms.Form):
-<<<<<<< HEAD
-    docfile = forms.FileField(
-        label='Select a file',
-        help_text='max. 42 megabytes'
-    )
-=======
     rawfile = forms.FileField(
         label='raw',
         help_text='max. 42 megabytes'
@@ -208,4 +156,3 @@ class S3DirectUploadForm(forms.Form):
             '  </div>'
             '</div>'
         )))
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725

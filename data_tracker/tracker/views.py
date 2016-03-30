@@ -33,12 +33,9 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from tracker.models import Document
 from tracker.forms import DocumentForm
-<<<<<<< HEAD
-=======
 # s3 direct uploading
 from django.views.generic import FormView
 from .forms import S3DirectUploadForm
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
 # Views for each page are created below with functions implemented
 
@@ -55,8 +52,8 @@ def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
         if form is not None:
-            email = request.POST.get('email')
-            username = email
+            #email = request.POST.get('email')
+            username = request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
@@ -97,11 +94,9 @@ def register(request):
         form = TrackerUserCreationForm(request.POST or None)
         if form.is_valid():
             post = form.save(commit=False)
-            #post.user_id = models.IntegerField(primary_key=True)
-            #TODO need user_id to auto increment here
             post.save()
             registered = True
-            return render(request, 'login.html',{'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
+            return render(request, 'login_valid.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
     else:
         form = TrackerUserCreationForm()
     return render(request, 'register.html', {'form': form, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
@@ -171,7 +166,6 @@ def unsubscribe(request):
 
 def stats(request):
     base = base_config(request)
-
 
     chart_data = ChartData()
     data = chart_data.tracker_data()
@@ -466,11 +460,7 @@ def base_config(request):
 
 # Handles file uploads
 
-<<<<<<< HEAD
-def list(request):
-=======
 def rawlist(request):
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -479,30 +469,18 @@ def rawlist(request):
             newdoc.save()
 
             # Redirect to the document list after POST
-<<<<<<< HEAD
-            return HttpResponseRedirect(reverse('tracker.views.list'))
-=======
             return HttpResponseRedirect(reverse('tracker.views.rawlist'))
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
     else:
         form = DocumentForm() # A empty, unbound form
 
     # Load documents for the list page
-<<<<<<< HEAD
-    documents = Document.objects.all()
-=======
     rawdocuments = Document.objects.filter(filetype='raw')
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
 
     # Gets the base configuration
     base = base_config(request)
 
     # Render list page with the documents and the form
     return render_to_response(
-<<<<<<< HEAD
-        'list.html',
-        {'documents': documents, 'form': form, 'base': base},
-=======
         'rawlist.html',
         {'rawdocuments': rawdocuments, 'form': form, 'base': base},
         context_instance=RequestContext(request)
@@ -531,6 +509,5 @@ def staginglist(request):
     return render_to_response(
         'staginglist.html',
         {'stagingdocuments': stagingdocuments, 'form': form, 'base': base},
->>>>>>> 3c7ee14725710d210c58adb140bfc1e7a63a0725
         context_instance=RequestContext(request)
     )

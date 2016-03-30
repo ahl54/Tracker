@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from tracker.subscribe import Subscribe
 from django.forms import CharField
 from django.core import validators
@@ -215,14 +216,23 @@ class TrackerUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
         """
-# An extension of Django's built-in user class
-class TrackerUser(AbstractBaseUser):
-    #user = models.ForeignKey(User, )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_id')
-    name = models.CharField(max_length=45)
-    group = models.ManyToManyField(Group)
+class TrackerUser(AbstractBaseUser):
+    """
+        An extension of Django's built-in user class to associate many to many user to group relationships
+    """
+    id = models.AutoField(primary_key=True)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='tracker_TrackerUser_user_id' )
+    username = models.CharField(max_length=45)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(unique=False, db_index=True)
+    group = models.ManyToManyField(Group)
+
+    is_superuser = models.BooleanField(default=0)
+    is_staff = models.BooleanField(default=0)
+    is_active = models.BooleanField(default=1)
+    date_joined = models.DateTimeField(default=datetime.now)
     #username = email
     #username = models.CharField(max_length=45, null=True, blank=True)
 
@@ -236,8 +246,13 @@ class TrackerUser(AbstractBaseUser):
     def __unicode__(self):
         return u"%s" % (self.name) #add rest of fields here
 
+    class Meta:
+        db_table = 'auth_user'
 
 class TrackerGroup(models.Model):
+    """
+        Group object that can be associated with tags and users on a many to many relationship
+    """
     #group = models.ForeignKey(Group, )
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='group_id')
     users = models.ManyToManyField(User)
@@ -248,6 +263,18 @@ class TrackerGroup(models.Model):
     def __unicode__(self):
         return u"%s" % (self.group) #add rest of fields here
 
+class Task(models.Model):
+    """
+        Matches the whitelist from Seven Bridges Genomics permissions levels
+    """
+    class Meta:
+        permissions = (
+            ("can_read", "Can read owned projects"),
+            ("can_write", "Can write to owned projects"),
+            ("can_copy", "Can copy owned projects"),
+            ("can_execute", "Can execute on owned projects"),
+            ("is_admin", "Is admin with super user priviledges"),
+        )
 
 # class SubTracker(Tracker)
 ### Depreciated
