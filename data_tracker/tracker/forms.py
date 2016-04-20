@@ -38,7 +38,6 @@ class TrackerForm(forms.ModelForm):
                     'placeholder': field.help_text
                 })
 
-
 class LoginForm(forms.ModelForm):
     """
     A form that takes the given email and password to check against our auth_users database for existing entries
@@ -51,7 +50,7 @@ class LoginForm(forms.ModelForm):
         #del self.fields['username']
 
     class Meta:
-        model = User
+        model = TrackerUser
         fields = ('username', 'password',)
         widgets = {'myfield': forms.TextInput(attrs={'div': 'field-style-vert'})}
         widgets = {'myfield': forms.PasswordInput(attrs={'div': 'field-style-vert'})}
@@ -70,7 +69,7 @@ class TrackerUserCreationForm(UserCreationForm):
 
     class Meta:
         model = TrackerUser
-        fields = ('email', 'username')
+        fields = ('email', 'username', 'can_write' , 'can_read', 'can_copy', 'can_execute')
 
 class TrackerUserChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on

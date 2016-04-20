@@ -158,13 +158,6 @@ class Tracker(models.Model):
     class Meta:
         app_label = 'tracker'
         ordering = ('-id', 'time', 'priority')
-        permissions = (
-            ("private", "Can be seen and used by the owner only"), #do we even want to allow them this option?
-            ("view_only", "Can be only viewed by anyone"), #this is the grey out option
-            ("user_limited", "Can be seen by select users only"),
-            ("group_limited", "Can be accessed by a group or multiple groups"),
-            ("public", "Can be viewed and used by anyone"),
-        )
 
 
 # Custom manager for TrackerUser
@@ -216,46 +209,12 @@ class TrackerUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
         """
-
-class TrackerUser(AbstractBaseUser):
-    """
-        An extension of Django's built-in user class to associate many to many user to group relationships
-    """
-    id = models.AutoField(primary_key=True)
-    #user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='tracker_TrackerUser_user_id' )
-    username = models.CharField(max_length=45)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(unique=False, db_index=True)
-    group = models.ManyToManyField(Group)
-
-    is_superuser = models.BooleanField(default=0)
-    is_staff = models.BooleanField(default=0)
-    is_active = models.BooleanField(default=1)
-    date_joined = models.DateTimeField(default=datetime.now)
-    #username = email
-    #username = models.CharField(max_length=45, null=True, blank=True)
-
-    #group = models.ForeignKey(Group, related_name='User')
-    # TODO Make user to groups relationship many to many to groups
-    # Does this cause a circular dependency if there's already a many to many field in TrackerGroup?
-    objects = TrackerUserManager()
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email']
-
-    def __unicode__(self):
-        return u"%s" % (self.name) #add rest of fields here
-
-    class Meta:
-        db_table = 'auth_user'
-
 class TrackerGroup(models.Model):
     """
         Group object that can be associated with tags and users on a many to many relationship
     """
-    #group = models.ForeignKey(Group, )
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='group_id')
-    users = models.ManyToManyField(User)
+    members = models.ManyToManyField(User, through='TrackerUser')
     description = models.CharField(max_length=500, blank=True)
     #permissions = models.ManyToManyField() #TODO Implement custom permissions as a class
     access_link = models.URLField(max_length=3000, blank=True) #institute's link to data access committee
@@ -263,18 +222,59 @@ class TrackerGroup(models.Model):
     def __unicode__(self):
         return u"%s" % (self.group) #add rest of fields here
 
-class Task(models.Model):
-    """
-        Matches the whitelist from Seven Bridges Genomics permissions levels
-    """
+class TrackerProject(models.Model):
+
+    """ Project object matches projects and permissions whitelist from SBG """
+
+    name = models.CharField(max_length=45)
+    members = models.ManyToManyField(User, through='TrackerUser')
+
     class Meta:
-        permissions = (
-            ("can_read", "Can read owned projects"),
-            ("can_write", "Can write to owned projects"),
-            ("can_copy", "Can copy owned projects"),
-            ("can_execute", "Can execute on owned projects"),
-            ("is_admin", "Is admin with super user priviledges"),
-        )
+            permissions = (
+                ( "can_write", "Can write to project" ),
+                ( "can_read", "Can read the project" ),
+                ( "can_execute", "Can execute on project"),
+                ( "can_copy", "Can copy to project"),
+            )
+
+    def __unicode__(self):
+        return u"%s" % (self.name)
+
+class TrackerUser(AbstractBaseUser):
+    """
+        An extension of Django's built-in user class to associate many to many user to group relationships
+    """
+    id = models.AutoField(primary_key=True)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='tracker_TrackerUser_user_id' )
+    TrackerGroup = models.ForeignKey(TrackerGroup, related_name='User')
+    TrackerProject = models.ForeignKey(TrackerProject)
+    User = models.ForeignKey(User)
+    username = models.CharField(max_length=45)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(unique=False, db_index=True)
+
+    is_superuser = models.BooleanField(default=0)
+    is_staff = models.BooleanField(default=0)
+    is_active = models.BooleanField(default=1)
+
+    can_write = models.BooleanField(default=0)
+    can_read = models.BooleanField(default=0)
+    can_execute = models.BooleanField(default=0)
+    can_copy = models.BooleanField(default=0)
+
+    date_joined = models.DateTimeField(default=datetime.now)
+    # TODO Make user to groups relationship many to many to groups
+    # Does this cause a circular dependency if there's already a many to many field in TrackerGroup?
+    objects = TrackerUserManager()
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['email']
+
+    def __unicode__(self):
+        return u"%s" % (self.username) #add rest of fields here
+
+    class Meta:
+        db_table = 'auth_user'
 
 # class SubTracker(Tracker)
 ### Depreciated

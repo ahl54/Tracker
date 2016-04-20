@@ -9,7 +9,7 @@ from django.db.models import Count
 from collections import Counter
 # form imports
 from .forms import TrackerForm, LoginForm, RegisterForm, TrackerUserCreationForm
-from tracker.models import Tracker, TrackerFilter
+from tracker.models import Tracker, TrackerUser, TrackerFilter
 from django_tables2 import RequestConfig
 # filter imports
 from crispy_forms.bootstrap import PrependedAppendedText, FormActions
@@ -36,10 +36,13 @@ from tracker.forms import DocumentForm
 # s3 direct uploading
 from django.views.generic import FormView
 from .forms import S3DirectUploadForm
+# Access management
+from tracker.access import Access
 
 # Views for each page are created below with functions implemented
 
 def index(request):
+    """ Homepage view, Logos to be adde """
     return render(request, 'tracker.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 LOGIN_URL = '/login.html'
@@ -48,6 +51,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-73248809-3'
 
 
 def login(request):
+    """ View for entering authentication credentials """
     base = base_config(request)
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
@@ -73,22 +77,27 @@ def login(request):
     return render(request, 'login.html', {'form': form, 'base': base})
 
 def login_invalid(request):
+    """ View for non logged in users"""
     return render(request, 'login_invalid.html')
 
 def login_disabled(request):
+    """ View for inactive users"""
     return render(request, 'login_disabled.html')
 
 def login_valid(request):
+    """ View for active and logged in users"""
     return render(request, 'login_valid.html')
 
 #@login_required(redirect_field_name=LOGIN_URL)
 def logout(request):
+    """ View for users to let users know they logged out succesfully """
     auth.logout(request)
     request.session['authenticated'] = False
     base = base_config(request)
     return render(request, 'logout.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 def register(request):
+    """ View for entering registration credentials """
     base = base_config(request)
     if request.method == 'POST':
         form = TrackerUserCreationForm(request.POST or None)
@@ -103,6 +112,7 @@ def register(request):
 
 @login_required(redirect_field_name=LOGIN_URL)
 def base_internal(request):
+    """ Navigation bar view includes Manage tab for internal, logged in users """
     return render(request, 'base_internal.html')
 
 ## TODO MEDIUM PRIORITY Create manage action view within the tabs
@@ -111,6 +121,7 @@ def base_internal(request):
 ## Low Low priority sharing via social media
 
 class S3UploaderView(FormView):
+    """ View for uploading single files directly to the raw S3 Cavatica bucket """
     template_name = 's3uploader.html'
     form_class = S3DirectUploadForm
 
@@ -131,14 +142,24 @@ class S3UploaderView(FormView):
 
 #@login_required(redirect_field_name=LOGIN_URL)
 def manage(request):
+    """ View for users to see their requests and manage data access groups and sharing """
     base = base_config(request)
-    email=request.user
-    objects = Tracker.objects.filter(email=email)
+    user = request.user
+    objects = Tracker.objects.filter(email=user)
+
+    # TODO: Update permissions
+
+    access = Access()
+    access.addProjects()
+
+    # TODO: Update groups
+
     results = {'objects': objects, 'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID}
     return render(request, 'manage.html', results)
 
 #@login_required(redirect_field_name=LOGIN_URL)
 def loading(request):
+    """ View to sort trackerID progress by tab selection and counts of requests in each category """
     base = base_config(request)
     requests = Tracker.objects.filter(trackerID = '0')
     raw = Tracker.objects.filter(trackerID = '1')
@@ -159,12 +180,14 @@ def loading(request):
 
 @login_required(redirect_field_name=LOGIN_URL)
 def unsubscribe(request):
+    """ Unsubscribe view fetches a token uniquely generated in the email link to unsubscribe a user from the mailing list """
     base = 'base_internal.html'
     # if clicked onto this unique page from an unsubscribe link in an email
     # TODO write unsubscribe action to pass the uuid into url and update the model for that entry to both summary 0 and subscription 0
     return render(request, 'unsubscribe.html', {'base': base, 'GOOGLE_ANALYTICS_PROPERTY_ID': GOOGLE_ANALYTICS_PROPERTY_ID})
 
 def stats(request):
+    """ View for summary statistics with charts and visualizations """
     base = base_config(request)
 
     chart_data = ChartData()
@@ -209,6 +232,7 @@ def stats(request):
     return render(request, 'stats.html', results)
 
 def tracker(request):
+    """ Main view for list of all tracker requests """
     #order from most recent requests
     base = base_config(request)
     objects = Tracker.objects.all()
@@ -216,7 +240,7 @@ def tracker(request):
     return render(request, 'tracker.html', results)# results)
 
 def thanks(request):
-
+    """ View for user confirmation and thanks when a request submission is completed """
     base = base_config(request)
 
     # Sends a summary of the request to the admin
@@ -240,7 +264,7 @@ def thanks(request):
     return render(request, 'thanks.html', {'base': base})
 
 def request(request):
-
+    """ View for entering data for requesting a cancer study """
     base = base_config(request)
     print(base)
 
@@ -266,6 +290,7 @@ def request(request):
 # thus users don't have to configure or edit a request they already sent
 
 def about(request):
+    """ View for background information about Data Tracker and administrative contact information """
     base = base_config(request)
     return render(request, 'about.html', {'base': base})
 
@@ -308,6 +333,7 @@ class FilteredSingleTableView(SingleTableView):
         return context
 
 class ChartData():
+    """ ChartData is a class that transforms tracker objects and its metadata into charts """
     chart_name = ''
     chart_height = ''
 
@@ -364,7 +390,7 @@ class ChartData():
         return result
 
 class Email():
-
+    """ Email class handles outgoing emails for confirmation of requests, admin notification of receiving a request, and summary subscriptions to Tracker progress """
     def admin_confirm(self):
         latest_obj = Tracker.objects.all().order_by('-id')[0]
         admin = 'cbttc.cbio@gmail.com'
@@ -460,8 +486,10 @@ def base_config(request):
 
 # Handles file uploads
 
+# Class FileUploader()
+
 def rawlist(request):
-    # Handle file upload
+    """ Handles file upload directly to a database in a table (for storing raw images or internal documents only) """
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -487,7 +515,7 @@ def rawlist(request):
     )
 
 def staginglist(request):
-    # Handle file upload
+    """ Handles file upload directly to a database in a table (for storing raw images or internal documents only) """
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():

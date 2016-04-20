@@ -1,0 +1,225 @@
+{% extends base %}
+{% load staticfiles %}
+
+{% block content %}
+{% block extrahead %}
+    <!-- Load in jQuery and HighCharts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <!-- Load in style sheets -->
+    <link href="{% static 'tracker/css/tracker.css' %}" rel="stylesheet">
+    <link href="{% static 'tracker/css/tabbed.css' %}" rel="stylesheet">
+{% endblock %}
+
+	<center>
+    <div class="tabbed">
+      <input name="tabbed" id="tabbed0" type="radio" checked>
+      <section>
+        <h1>
+          <label for="tabbed0">Your Requests</label>
+        </h1>
+        <div>
+        <!--Queryset of TrackerIDs for this user-->
+        <!-- Display by groups in case the user belongs to multiple groups -->
+        <center>
+        <br/>
+        {% for obj in objects %}
+          {% if obj.trackerID == 5 %}
+              <div class= "box_header_spider">
+                <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+              </div>
+              <div class= "box">
+                <ol class="progtrckr" data-progtrckr-steps="5">
+                  <li class="progtrckr-done">Request Received</li>
+                  <li class="progtrckr-done">Data Downloaded</li>
+                  <li class="progtrckr-done">Data in Staging</li>
+                  <li class="progtrckr-done">Data in (S3) Cavatica</li>
+                  <li class="progtrckr-done">Available in Cavatica</li>
+                </ol>
+              </div>
+          {% elif obj.trackerID == 4 %}
+              <div class= "box_header_mortar">
+                <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+                <a href={{obj.cbio_link}} class = "li-icon">
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                </a><br/>
+              </div>
+              <div class= "box">
+                <ol class="progtrckr" data-progtrckr-steps="5">
+                  <li class="progtrckr-done">Request Received</li>
+                  <li class="progtrckr-done">Data Downloaded</li>
+                  <li class="progtrckr-done">Data in Staging</li>
+                  <li class="progtrckr-done">Data in Database</li>
+                  <li class="progtrckr-done">Available in cBioPortal</li>
+                </ol>
+              </div>
+
+          {% elif obj.trackerID == 3 %}
+            <div class= "box_header_fresh">
+        		    <a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        	  </div>
+        	<div class= "box">
+        		<ol class="progtrckr" data-progtrckr-steps="5">
+        			<li class="progtrckr-done">Request Received</li>
+        			<li class="progtrckr-done">Data Downloaded</li>
+        			<li class="progtrckr-done">Data in Staging</li>
+        			<li class="progtrckr-done">Data in S3/Database</li>
+        			<li class="progtrckr-todo">Available</li>
+        	</div>
+        	{% elif obj.trackerID == 2 %}
+        	<div class= "box_header_minty">
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        	</div>
+        	<div class= "box">
+        	<ol class="progtrckr" data-progtrckr-steps="5">
+        		<li class="progtrckr-done">Request Received</li>
+        		<li class="progtrckr-done">Data Downloaded</li>
+        		<li class="progtrckr-done">Data in Staging</li>
+            <li class="progtrckr-todo">Data in S3/Database</li>
+        		<li class="progtrckr-todo">Available</li>
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        		<a href={{obj.study_link}} align="right"></a><br/>
+        	</div>
+        	</ol>
+
+        	{% elif obj.trackerID == 1 %}
+        	<div class= "box_header_halves">
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a>
+        	</div>
+        	<div class= "box">
+        	<ol class="progtrckr" data-progtrckr-steps="5">
+        		<li class="progtrckr-done">Request Received</li>
+        		<li class="progtrckr-done">Data Downloaded</li>
+        		<li class="progtrckr-todo">Data in Staging</li>
+        		<li class="progtrckr-todo">Data in S3/Database</li>
+        		<li class="progtrckr-todo">Available</li>
+        	</ol>
+        	</div>
+        	{% else %}
+        	<div class= "box_header_mortar">
+        		<a href={{obj.study_link}}><b>{{ obj.description }}</b></a><br/>
+        	</div>
+        	<div class= "box">
+        	<ol class="progtrckr" data-progtrckr-steps="5">
+        		<li class="progtrckr-done">Request Received</li>
+        		<li class="progtrckr-todo">Data Downloaded</li>
+        		<li class="progtrckr-todo">Data in Staging</li>
+        		<li class="progtrckr-todo">Data in S3/Database</li>
+        		<li class="progtrckr-todo">Available</li>
+        	</ol>
+        	</div>
+
+        	{% endif %}
+        {% endfor %}
+        </center>
+      </div>
+      </section>
+      <input name="tabbed" id="tabbed1" type="radio">
+      <section>
+        <h1>
+          <label for="tabbed1">Sharing</label>
+        </h1>
+        <div>
+          <div id="container" align="left">
+        <p> Create a group <p>
+        <p> Invite others to a group <p>
+        <p> Request to join another group <p>
+        </div>
+      </section>
+      <input name="tabbed" id="tabbed2" type="radio">
+      <section>
+        <h1>
+          <label for="tabbed2">Data Management</label>
+        </h1>
+        <div>
+        <!-- Settings for your data, set group access levels: private, view only, use only, public -->
+        <h1> Cavatica Profile <h1>
+        <h3> Your permissions: <h3>
+        <p> Can write: {{ permissions.can_write }} <p>
+        <p> Can read: {{ permissions.can_read }} <p>
+        <p> Can execute: {{ permissions.can_execute }} <p>
+        <p> Can copy: {{ permissions.can_copy }} <p>
+        -
+        <h3> Your projects: <h3>
+          <!-- {% for project in permissions.projects %}
+            List projects here
+          {% endfor %} -->
+        -
+        <h3> Your groups: <h3>
+          <!-- {% for group in permissions.groups %}
+            List groups here
+          {% endfor %} -->
+
+        <!--   <p> Accessible to a group or multiple groups <p>
+        <p> Allow another user to admin this data <p>
+        <p> Make this data public to anyone <p> -->
+        </div>
+      </section>
+  </div>
+	</center>
+
+{% block overwrite %}
+<!-- Overwrite the base.html jQuery load and put in head for Highcharts to work -->
+{% endblock %}
+
+<style>
+.tabbed > input{
+  display : none;
+}
+
+.tabbed > input:first-child + section > h1{
+  padding-left : 1em;
+}
+
+.tabbed > input:not(:checked) + section > div{
+  display : none;
+}
+
+.tabbed > input:checked + section > h1{
+  position : relative;
+  z-index  : 2;
+}
+
+.tabbed > section > h1{
+  float : left;
+  box-sizing  : border-box;
+  margin      : 0;
+  padding     : 0.5em 0.5em 0;
+  overflow    : hidden;
+  font-size   : 1em;
+  font-weight : normal;
+}
+
+.tabbed > section > div{
+  float  : right;
+  width  : 100%;
+  margin : 2.5em 0 0 -100%;
+  box-sizing    : border-box;
+  padding       : 0.5em 0.75em;
+  border        : 1px solid #ddd;
+  border-radius : 4px;
+  box-shadow    : 0 0 0.5em rgba(0,0,0,0.0625);
+  background    : #fff;
+  position : relative;
+  z-index  : 1;
+}
+
+.tabbed{
+  float : left;
+  width : 100%;
+}
+
+.tabbed > section > h1 > label{
+  display                 : block;
+  padding                 : 0.25em 0.75em;
+  border                  : 1px solid #ddd;
+  border-bottom           : none;
+  border-top-left-radius  : 4px;
+  border-top-right-radius : 4px;
+  box-shadow              : 0 0 0.5em rgba(0,0,0,0.0625);
+  background              : #fff;
+}
+</style>
+
+
+{% endblock %}
