@@ -30,7 +30,14 @@ def push_whitelist(project_list):
             projects = each_project['id']
             permissions = str(each_member['permissions'])
 
-        p, created = TrackerProject.objects.get_or_create(name=projects)
+            project = projects.split('/', 1)[1]
+
+
+        try:
+            p = TrackerProject.objects.get(name=projects)
+        except p.DoesNotExist:
+            print('Queried project does not exist...creating TrackerProject')
+            #p = TrackerProject.objects.create(name=projects)
 
 class Access():
 
@@ -54,12 +61,6 @@ class Access():
         print(permission)
         #permission = Permission.objects.get(name='can_copy')
         #u.user_permissions.add(permission)
-
-
-
-
-
-
 
 
     #def invite_to_join(email):
